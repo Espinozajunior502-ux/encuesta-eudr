@@ -1,289 +1,161 @@
+<!DOCTYPE html>
+<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>EUDR Koltiva</title>
-
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Koltiva">
-    
-    <link rel="apple-touch-icon" href="apple-touch-icon.png">
-
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-    <meta http-equiv="Pragma" content="no-cache">
-    <meta http-equiv="Expires" content="0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="EUDR">
+<title>Encuesta EUDR – Megablessing</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
 :root{
-  --red:#e40521;
-  --red-dark:#b8041a;
-  --red-light:#fde8eb;
-  --red-mid:#f5c0c8;
-  --black:#111111;
-  --black2:#1e1e1e;
-  --black3:#2d2d2d;
-  --gray:#444444;
-  --gray2:#6b6b6b;
-  --gray3:#9e9e9e;
-  --gray4:#d4d4d4;
-  --gray5:#f0f0f0;
-  --gray6:#f7f7f7;
-  --white:#ffffff;
-  --rad:11px;
-  --sh:0 1px 4px rgba(0,0,0,.12);
-  --shm:0 4px 12px rgba(0,0,0,.15);
+  --red:#e40521;--red-dark:#b8041a;--red-light:#fde8eb;
+  --black:#111111;--black2:#1e1e1e;--black3:#2d2d2d;
+  --gray:#444;--gray2:#6b6b6b;--gray3:#9e9e9e;
+  --gray4:#d4d4d4;--gray5:#f0f0f0;--gray6:#f7f7f7;
+  --white:#fff;--rad:11px;
+  --sh:0 1px 4px rgba(0,0,0,.12);--shm:0 4px 16px rgba(0,0,0,.18);
 }
-body{
-  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;
-  background:var(--gray5);color:var(--black);
-  padding-bottom:108px;font-size:15px;
-  -webkit-font-smoothing:antialiased;
-}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;background:var(--gray5);color:var(--black);padding-bottom:108px;font-size:15px;-webkit-font-smoothing:antialiased;}
 
-/* ── HEADER ── */
-header{
-  position:sticky;top:0;z-index:200;
-  background:var(--black);
-  padding:10px 14px 10px;
-  display:flex;align-items:center;gap:10px;
-  border-bottom:3px solid var(--red);
-}
-.hlogo{
-  width:34px;height:34px;border-radius:8px;
-  background:var(--red);display:flex;align-items:center;
-  justify-content:center;color:#fff;font-weight:900;
-  font-size:13px;flex-shrink:0;letter-spacing:-.5px;
-}
-.htxt h1{font-size:14px;font-weight:700;color:#fff;letter-spacing:-.2px;}
+/* HEADER */
+header{position:sticky;top:0;z-index:200;background:var(--black);padding:10px 14px;display:flex;align-items:center;gap:10px;border-bottom:3px solid var(--red);}
+.hlogo{width:34px;height:34px;border-radius:8px;background:var(--red);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:13px;flex-shrink:0;}
+.htxt h1{font-size:14px;font-weight:700;color:#fff;}
 .htxt p{font-size:11px;color:var(--gray3);}
 .hright{margin-left:auto;display:flex;flex-direction:column;align-items:flex-end;gap:4px;}
 #sbadge{font-size:10px;font-weight:700;padding:3px 8px;border-radius:999px;background:#1a1a1a;color:var(--gray3);}
-#sbadge.on{background:rgba(228,5,33,.2);color:#ff6b80;}
-#sbadge.off{background:#1a1a1a;color:var(--gray3);}
-#syncbtn{
-  display:none;font-size:10px;font-weight:700;
-  padding:3px 9px;border-radius:999px;
-  background:var(--red);color:#fff;border:none;
-  cursor:pointer;font-family:inherit;
-  white-space:nowrap;
-}
+#sbadge.on{background:rgba(228,5,33,.25);color:#ff6b80;}
+#syncbtn{display:none;font-size:10px;font-weight:700;padding:3px 9px;border-radius:999px;background:var(--red);color:#fff;border:none;cursor:pointer;font-family:inherit;}
 #syncbtn.vis{display:block;}
 #syncbtn:disabled{opacity:.6;}
 
-/* ── TABS ── */
-.tabbar{
-  display:flex;background:var(--black2);
-  border-bottom:1px solid var(--black3);
-  overflow-x:auto;-webkit-overflow-scrolling:touch;
-  position:sticky;top:57px;z-index:190;
-}
-.tb{
-  flex:1;min-width:82px;padding:11px 6px;
-  font-family:inherit;font-size:11px;font-weight:600;
-  border:none;background:none;cursor:pointer;
-  color:var(--gray3);border-bottom:3px solid transparent;
-  white-space:nowrap;
-}
+/* TABS */
+.tabbar{display:flex;background:var(--black2);border-bottom:1px solid var(--black3);overflow-x:auto;-webkit-overflow-scrolling:touch;position:sticky;top:57px;z-index:190;}
+.tb{flex:1;min-width:82px;padding:11px 6px;font-family:inherit;font-size:11px;font-weight:600;border:none;background:none;cursor:pointer;color:var(--gray3);border-bottom:3px solid transparent;white-space:nowrap;}
 .tb.act{color:#fff;border-bottom-color:var(--red);}
-.bk{
-  display:inline-block;margin-left:3px;
-  background:var(--red);color:#fff;
-  border-radius:999px;font-size:9px;font-weight:700;padding:1px 5px;
-}
+.bk{display:inline-block;margin-left:3px;background:var(--red);color:#fff;border-radius:999px;font-size:9px;font-weight:700;padding:1px 5px;}
 
-/* ── PANELS ── */
+/* PANELS */
 .panel{display:none;padding:14px;}
 .panel.act{display:block;}
 
-/* ── CARDS ── */
-.card{
-  background:var(--white);border-radius:var(--rad);
-  border:1px solid var(--gray4);box-shadow:var(--sh);
-  margin-bottom:14px;overflow:hidden;
-}
-.ch{
-  padding:11px 14px 9px;border-bottom:1px solid var(--gray5);
-  display:flex;align-items:center;gap:8px;
-}
+/* CARDS */
+.card{background:var(--white);border-radius:var(--rad);border:1px solid var(--gray4);box-shadow:var(--sh);margin-bottom:14px;}
+.ch{padding:11px 14px 9px;border-bottom:1px solid var(--gray5);display:flex;align-items:center;gap:8px;}
 .ch h2{font-size:13px;font-weight:700;color:var(--black);}
-.cico{
-  width:26px;height:26px;border-radius:6px;
-  display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;
-}
+.cico{width:26px;height:26px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;}
 .cb{padding:12px 14px;}
 
-/* ── FIELDS ── */
+/* FIELDS */
 .field{margin-bottom:12px;}
 .field:last-child{margin-bottom:0;}
-label{
-  display:block;margin-bottom:4px;
-  font-size:11px;font-weight:700;color:var(--gray2);
-  text-transform:uppercase;letter-spacing:.04em;
-}
+label{display:block;margin-bottom:4px;font-size:11px;font-weight:700;color:var(--gray2);text-transform:uppercase;letter-spacing:.04em;}
 label .rq{color:var(--red);margin-left:2px;}
-input,select,textarea{
-  width:100%;padding:10px 11px;
-  font-family:inherit;font-size:15px;
-  background:var(--gray6);border:1.5px solid var(--gray4);
-  border-radius:8px;color:var(--black);outline:none;
-  transition:border-color .15s;-webkit-appearance:none;
-}
-input:focus,select:focus,textarea:focus{
-  border-color:var(--red);
-  box-shadow:0 0 0 3px rgba(228,5,33,.1);
-  background:#fff;
-}
+input,select,textarea{width:100%;padding:10px 11px;font-family:inherit;font-size:15px;background:var(--gray6);border:1.5px solid var(--gray4);border-radius:8px;color:var(--black);outline:none;transition:border-color .15s;-webkit-appearance:none;}
+input:focus,select:focus,textarea:focus{border-color:var(--red);box-shadow:0 0 0 3px rgba(228,5,33,.1);background:#fff;}
 textarea{resize:vertical;min-height:64px;}
 .row2{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
 .row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;}
 
-/* ── AUTOCOMPLETE ── */
+/* AUTOCOMPLETE — fixed to viewport so card overflow never clips it */
 .acwrap{position:relative;}
 .acdrop{
-  position:absolute;top:calc(100% + 3px);left:0;right:0;
-  background:#fff;border:2px solid var(--red);
-  border-radius:9px;box-shadow:var(--shm);
-  max-height:260px;overflow-y:auto;z-index:500;display:none;
+  position:fixed;
+  left:14px;right:14px;
+  background:#fff;
+  border:2px solid var(--red);
+  border-radius:10px;
+  box-shadow:var(--shm);
+  max-height:55vh;
+  overflow-y:auto;
+  z-index:9999;
+  display:none;
+  -webkit-overflow-scrolling:touch;
 }
 .acdrop.open{display:block;}
-.acit{
-  padding:10px 12px;font-size:14px;cursor:pointer;
-  border-bottom:1px solid var(--gray5);
-  display:flex;flex-direction:column;gap:2px;
-}
+.acit{padding:11px 13px;font-size:14px;cursor:pointer;border-bottom:1px solid var(--gray5);display:flex;flex-direction:column;gap:2px;}
 .acit:last-child{border-bottom:none;}
-.acit:hover,.acit.foc{background:var(--red-light);}
+.acit:active,.acit.foc{background:var(--red-light);}
 .acit strong{font-size:13px;color:var(--black);}
 .acit span{font-size:11px;color:var(--gray3);font-family:monospace;}
 .acit.neu{color:var(--red);}
 
-/* ── SELECTED PRODUCER CHIP ── */
-#selp{
-  display:none;padding:9px 12px;
-  background:var(--red-light);border:1.5px solid var(--red);
-  border-radius:8px;gap:9px;align-items:center;margin-bottom:12px;
-}
+/* SELECTED CHIP */
+#selp{display:none;padding:9px 12px;background:var(--red-light);border:1.5px solid var(--red);border-radius:8px;gap:9px;align-items:center;margin-bottom:12px;}
 #selp.vis{display:flex;}
 .pname{font-weight:700;font-size:13px;color:var(--red-dark);}
 .pci{font-size:11px;color:var(--gray2);font-family:monospace;}
 .bclr{border:none;background:none;cursor:pointer;color:var(--gray3);font-size:17px;padding:2px 5px;}
 
-/* ── SECTION LABEL ── */
+/* SECTION LABEL */
 .sl{font-size:10px;font-weight:700;color:var(--gray3);text-transform:uppercase;letter-spacing:.06em;padding:2px 0 7px;}
 .gap{margin-top:8px;}
 .ntag{font-size:11px;font-weight:400;color:var(--gray3);}
 
-/* ── BUTTONS ── */
-.btn{
-  width:100%;padding:12px 14px;font-family:inherit;
-  font-size:15px;font-weight:700;border:none;border-radius:9px;
-  cursor:pointer;display:flex;align-items:center;
-  justify-content:center;gap:7px;
-  transition:opacity .15s,transform .1s;
-}
+/* BUTTONS */
+.btn{width:100%;padding:12px 14px;font-family:inherit;font-size:15px;font-weight:700;border:none;border-radius:9px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;transition:opacity .15s,transform .1s;}
 .btn:active{transform:scale(.98);}
 .bpri{background:var(--red);color:#fff;}
-.bpri:hover{background:var(--red-dark);}
 .bsec{background:var(--black);color:#fff;}
 .bout{background:#fff;color:var(--red);border:2px solid var(--red);}
-.badd{
-  display:flex;align-items:center;gap:5px;
-  padding:8px 12px;border:1.5px dashed var(--red);
-  background:var(--red-light);color:var(--red);
-  border-radius:7px;font-size:12px;font-weight:600;
-  cursor:pointer;font-family:inherit;width:100%;
-  justify-content:center;margin-top:8px;
-}
+.badd{display:flex;align-items:center;gap:5px;padding:8px 12px;border:1.5px dashed var(--red);background:var(--red-light);color:var(--red);border-radius:7px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;width:100%;justify-content:center;margin-top:8px;}
 
-/* ── DYNAMIC ROWS ── */
-.drow{
-  background:var(--gray6);border:1px solid var(--gray4);
-  border-radius:9px;padding:11px;margin-bottom:10px;
-}
+/* DYNAMIC ROWS */
+.drow{background:var(--gray6);border:1px solid var(--gray4);border-radius:9px;padding:11px;margin-bottom:10px;}
 .drowhd{display:flex;align-items:center;justify-content:space-between;margin-bottom:9px;}
 .drowtl{font-size:11px;font-weight:700;color:var(--gray2);}
-.brem{
-  border:none;background:var(--red-light);color:var(--red);
-  border-radius:5px;padding:3px 8px;font-size:11px;
-  font-weight:600;cursor:pointer;font-family:inherit;
-}
+.brem{border:none;background:var(--red-light);color:var(--red);border-radius:5px;padding:3px 8px;font-size:11px;font-weight:600;cursor:pointer;font-family:inherit;}
 
-/* ── GPS ── */
-.gbox{
-  background:var(--gray6);border:1px solid var(--gray4);
-  border-radius:8px;padding:10px;display:flex;align-items:center;gap:9px;
-}
+/* GPS */
+.gbox{background:var(--gray6);border:1px solid var(--gray4);border-radius:8px;padding:10px;display:flex;align-items:center;gap:9px;}
 .gcoords{font-family:monospace;font-size:12px;color:var(--red-dark);font-weight:600;}
 .gstat{font-size:11px;color:var(--gray3);}
-.bgps{
-  border:none;background:var(--red);color:#fff;
-  border-radius:6px;padding:7px 12px;font-size:12px;
-  font-weight:600;cursor:pointer;font-family:inherit;white-space:nowrap;
-}
+.bgps{border:none;background:var(--red);color:#fff;border-radius:6px;padding:7px 12px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;white-space:nowrap;}
 
-/* ── PHOTO ── */
+/* PHOTO */
 .phimg{width:100%;max-height:180px;object-fit:cover;border-radius:8px;margin-top:9px;display:none;}
 
-/* ── RECORDS ── */
-.scard{
-  background:#fff;border:1px solid var(--gray4);
-  border-radius:9px;padding:12px;margin-bottom:10px;box-shadow:var(--sh);
-}
-.scn{font-weight:700;font-size:13px;color:var(--black);}
+/* RECORDS */
+.scard{background:#fff;border:1px solid var(--gray4);border-radius:9px;padding:12px;margin-bottom:10px;box-shadow:var(--sh);}
+.scn{font-weight:700;font-size:13px;}
 .scci{font-size:11px;color:var(--gray3);font-family:monospace;}
 .scm{font-size:11px;color:var(--gray2);margin-top:3px;}
 .sbdg{font-size:10px;font-weight:700;padding:2px 8px;border-radius:999px;flex-shrink:0;}
 .sbdg.y{background:#dcfce7;color:#15803d;}
 .sbdg.n{background:var(--red-light);color:var(--red);}
 
-/* ── PROGRESS ── */
+/* PROGRESS */
 .pwrap{margin-top:12px;}
 .plbl{display:flex;justify-content:space-between;font-size:12px;font-weight:600;color:var(--gray2);margin-bottom:5px;}
 .prog{height:7px;background:var(--gray4);border-radius:999px;overflow:hidden;}
 .pfill{height:100%;width:0%;background:var(--red);border-radius:999px;transition:.4s;}
 
-/* ── SYNC STATUS BOX ── */
-.syncbox{
-  background:var(--black2);border-radius:9px;
-  padding:12px 14px;margin-bottom:12px;
-  display:flex;align-items:center;gap:10px;
-}
+/* SYNC BOX */
+.syncbox{background:var(--black2);border-radius:9px;padding:12px 14px;margin-bottom:12px;display:flex;align-items:center;gap:10px;}
 .syncbox .si{font-size:20px;}
 .syncbox .st{flex:1;}
 .syncbox .stt{font-size:12px;font-weight:600;color:#fff;}
 .syncbox .stm{font-size:11px;color:var(--gray3);margin-top:2px;}
-.bsynclg{
-  border:none;background:var(--red);color:#fff;
-  border-radius:7px;padding:8px 14px;font-size:13px;
-  font-weight:700;cursor:pointer;font-family:inherit;
-  white-space:nowrap;
-}
+.bsynclg{border:none;background:var(--red);color:#fff;border-radius:7px;padding:8px 14px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;white-space:nowrap;}
 .bsynclg:disabled{opacity:.5;cursor:default;}
 
-/* ── TOAST ── */
-#toast{
-  position:fixed;bottom:105px;left:50%;
-  transform:translateX(-50%) translateY(14px);
-  background:var(--black);color:#fff;
-  padding:9px 18px;border-radius:999px;
-  font-size:12px;font-weight:600;
-  opacity:0;transition:all .25s;z-index:1000;
-  white-space:nowrap;pointer-events:none;max-width:90vw;
-  text-align:center;
-}
+/* TOAST */
+#toast{position:fixed;bottom:105px;left:50%;transform:translateX(-50%) translateY(14px);background:var(--black);color:#fff;padding:9px 18px;border-radius:999px;font-size:12px;font-weight:600;opacity:0;transition:all .25s;z-index:10000;white-space:nowrap;pointer-events:none;max-width:90vw;text-align:center;}
 #toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
 #toast.ok{background:var(--red);}
 #toast.er{background:#b91c1c;}
 
-/* ── BOTTOM NAV ── */
-.bnav{
-  position:fixed;bottom:0;left:0;right:0;z-index:300;
-  background:var(--black2);border-top:1px solid var(--black3);
-  padding:9px 14px 20px;display:flex;gap:9px;
-}
+/* BOTTOM NAV */
+.bnav{position:fixed;bottom:0;left:0;right:0;z-index:300;background:var(--black2);border-top:1px solid var(--black3);padding:9px 14px 20px;display:flex;gap:9px;}
 .bnav .btn{flex:1;}
 
-/* ── EMPTY ── */
+/* EMPTY */
 .empty{text-align:center;padding:36px 16px;color:var(--gray3);}
 .empty .ei{font-size:42px;margin-bottom:10px;}
 .empty p{font-size:13px;}
@@ -310,16 +182,15 @@ textarea{resize:vertical;min-height:64px;}
   <button class="tb" onclick="sw(3)">📋 Registros <span class="bk" id="rb">0</span></button>
 </div>
 
-<!-- ══ PANEL 0: PRODUCTOR ══ -->
+<!-- PANEL 0 -->
 <div class="panel act" id="p0">
-
   <div class="card">
     <div class="ch"><div class="cico" style="background:#fde8eb">🔍</div><h2>Seleccionar Productor</h2></div>
     <div class="cb">
       <div class="field">
         <label>Buscar por nombre o cédula</label>
         <div class="acwrap">
-          <input type="text" id="sq" placeholder="Escriba para buscar..." autocomplete="off">
+          <input type="text" id="sq" placeholder="Escriba para buscar..." autocomplete="off" autocorrect="off" spellcheck="false">
           <div class="acdrop" id="acd"></div>
         </div>
       </div>
@@ -395,10 +266,10 @@ textarea{resize:vertical;min-height:64px;}
         <button class="bgps" onclick="doGPS()">Obtener</button>
       </div>
       <div class="field" style="margin-top:10px">
-        <label>Ingresar manualmente (opcional)</label>
+        <label>Ingresar manualmente (si GPS falla)</label>
         <div class="row2">
           <input type="number" id="glat" placeholder="Latitud  ej: -0.2345" step="any">
-          <input type="number" id="glng" placeholder="Longitud  ej: -79.4567" step="any">
+          <input type="number" id="glng" placeholder="Longitud  ej: -79.456" step="any">
         </div>
         <button class="badd" style="margin-top:6px" onclick="setManualGPS()">✓ Usar coordenadas manuales</button>
       </div>
@@ -413,10 +284,9 @@ textarea{resize:vertical;min-height:64px;}
       <img id="phimg" class="phimg">
     </div>
   </div>
+</div>
 
-</div><!-- /p0 -->
-
-<!-- ══ PANEL 1: FAMILIA ══ -->
+<!-- PANEL 1 -->
 <div class="panel" id="p1">
   <div class="card">
     <div class="ch"><div class="cico" style="background:#fde8eb">👨‍👩‍👧</div><h2>Miembros del Hogar</h2></div>
@@ -428,7 +298,7 @@ textarea{resize:vertical;min-height:64px;}
   </div>
 </div>
 
-<!-- ══ PANEL 2: TRABAJADORES ══ -->
+<!-- PANEL 2 -->
 <div class="panel" id="p2">
   <div class="card">
     <div class="ch"><div class="cico" style="background:#f0f0f0">👷</div><h2>Trabajadores Contratados</h2></div>
@@ -440,18 +310,16 @@ textarea{resize:vertical;min-height:64px;}
   </div>
 </div>
 
-<!-- ══ PANEL 3: REGISTROS ══ -->
+<!-- PANEL 3 -->
 <div class="panel" id="p3">
-
   <div class="syncbox">
     <span class="si">☁️</span>
     <div class="st">
-      <div class="stt" id="synct">Sin conexión a internet</div>
-      <div class="stm" id="syncm">Los datos se guardan localmente en este dispositivo</div>
+      <div class="stt" id="synct">Sin conexión</div>
+      <div class="stm" id="syncm">Datos guardados localmente</div>
     </div>
     <button class="bsynclg" id="bsynclg" onclick="syncAll()" disabled>Sincronizar</button>
   </div>
-
   <div class="card">
     <div class="ch"><div class="cico" style="background:#fde8eb">📊</div><h2>Progreso general</h2></div>
     <div class="cb">
@@ -459,14 +327,13 @@ textarea{resize:vertical;min-height:64px;}
         <div class="plbl"><span>Encuestas guardadas</span><span id="pcnt">0 / 190</span></div>
         <div class="prog"><div class="pfill" id="pfill"></div></div>
       </div>
-      <button class="btn bsec" style="margin-top:12px" onclick="expJSON()">⬇️ Exportar respaldo JSON</button>
+      <div style="display:flex;gap:8px;margin-top:12px">
+        <button class="btn bsec" style="flex:1" onclick="expJSON()">⬇️ JSON</button>
+        <button class="btn bpri" style="flex:1" onclick="expExcel()">⬇️ Excel</button>
+      </div>
     </div>
   </div>
-
-  <div id="rlist">
-    <div class="empty"><div class="ei">📭</div><p>Aún no hay encuestas guardadas</p></div>
-  </div>
-
+  <div id="rlist"><div class="empty"><div class="ei">📭</div><p>Aún no hay encuestas guardadas</p></div></div>
 </div>
 
 <div class="bnav">
@@ -476,42 +343,107 @@ textarea{resize:vertical;min-height:64px;}
 <div id="toast"></div>
 
 <script>
-const SYNC_URL='https://script.google.com/macros/s/AKfycbzPeqHhii2H0EExUJIJqsd-3UET1lWIDKGgu5EfNTCG04ieahqYQn97j0Svc0PbIkwV6Q/exec';
+const SYNC_URL='https://script.google.com/macros/s/AKfycbyJxVQHFFVmJCojMyn9bmH47Suzp23LrATLqw7w7sYVVHeL67xhr8jl2qbLsjOqaQD23Q/exec';
 const P=[{"id":"","name":"Aguilar Vera Miguel Angel","gender":"Male","birthdate":"","idType":"National ID card","ci":"1313570390","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"995813969","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Alcivar Bermudez Benito Fidencio","gender":"Male","birthdate":"","idType":"National ID card","ci":"1707685887","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"991628168","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Alcivar Bermudez Omar Fenelon","gender":"Male","birthdate":"","idType":"National ID card","ci":"1302786916","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"990343486","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Alcivar Pilligua Wellintog Paulo","gender":"Male","birthdate":"","idType":"National ID card","ci":"0803294917","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"980496793","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Alcivar Reina Estenio Alirio","gender":"Male","birthdate":"","idType":"National ID card","ci":"1311008021","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"980875694","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Alcivar Solorzano Andres Roberto","gender":"Male","birthdate":"","idType":"National ID card","ci":"2350725632","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"989109686","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Alcivar Zambrano Esperanza del Rocio","gender":"Female","birthdate":"","idType":"National ID card","ci":"1310356793","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"969252127","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Alvarez Quiroz Romer Fabian","gender":"Male","birthdate":"","idType":"National ID card","ci":"0306096635","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"986230893","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Andino Luis Gilbertho","gender":"Male","birthdate":"","idType":"National ID card","ci":"1708645922","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"993170920","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Araud Jara Pedro Jose","gender":"Male","birthdate":"","idType":"National ID card","ci":"1317835963","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"998655064","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Arauz Bravo Juan Carlos","gender":"Male","birthdate":"","idType":"National ID card","ci":"1309210688","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"993771878","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Arauz Vera Ariel Arturo","gender":"Male","birthdate":"","idType":"National ID card","ci":"1308456183","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"959711837","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Arteaga Arteaga Freddy Diogenes","gender":"Male","birthdate":"","idType":"National ID card","ci":"1303979106","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"993927141","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Arteaga Quiroz Carlos Jhon","gender":"Male","birthdate":"","idType":"National ID card","ci":"1305585166","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"986082839","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Barre Zambrano Franklin Ricardo","gender":"Male","birthdate":"","idType":"National ID card","ci":"1718966664","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"980364435","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Barreto velez Victor Hugo","gender":"Male","birthdate":"","idType":"National ID card","ci":"1306395383","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"983375253","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Basurto Cedeño Ignacio Dicifredo","gender":"Male","birthdate":"","idType":"National ID card","ci":"1706207212","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"939372553","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Bazurto Alava Eugenio Eulogio","gender":"Male","birthdate":"","idType":"National ID card","ci":"1301985824","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Bonilla Palacios Cesar Alonso","gender":"Male","birthdate":"","idType":"National ID card","ci":"0501935910","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"984397446","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Bravo Alcivar Wilfrido Melvin","gender":"Male","birthdate":"","idType":"National ID card","ci":"1302655517","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"959190053","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Bravo Intriago Gerardo Geovanny","gender":"Male","birthdate":"","idType":"National ID card","ci":"O922086400","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"994436693","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Bravo Marcillo Margarita Ines","gender":"Female","birthdate":"","idType":"National ID card","ci":"1314661313","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"991444231","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Bravo Zambrano Cesar Julio","gender":"Male","birthdate":"","idType":"National ID card","ci":"1304906371","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"990492808","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Briones Bermudez Elba Janeth","gender":"Female","birthdate":"","idType":"National ID card","ci":"1307710317","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"997977151","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Buenaventura Mecias Richard Amado","gender":"Male","birthdate":"","idType":"National ID card","ci":"1305787804","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"986980458","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Buenaventura Mecias Wasintong  Oswaldo","gender":"Male","birthdate":"","idType":"National ID card","ci":"1304277674","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"959807574","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Buenaventura Vera Jaime Alberto","gender":"Male","birthdate":"","idType":"National ID card","ci":"1304185851","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"993478830","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Calderon Mendoza Wilson Estilito","gender":"Male","birthdate":"","idType":"National ID card","ci":"1706175013","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"994928745","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Cantos Demera Angel Jesus","gender":"Male","birthdate":"","idType":"National ID card","ci":"1722393129","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"967140454","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Casquete Loor Dario Alvaro","gender":"Male","birthdate":"","idType":"National ID card","ci":"2351006768","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"963987398","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Castro Bravo Joffre Eloy","gender":"Male","birthdate":"","idType":"National ID card","ci":"1308745346","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"995457712","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Castro Bravo Jose Auxilio","gender":"Male","birthdate":"","idType":"National ID card","ci":"1310978950","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"980262457","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Catagua Echeverria Luis Ancelmo","gender":"Male","birthdate":"","idType":"National ID card","ci":"1306479161","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Cedeño arauz Lourdes Katerine","gender":"Female","birthdate":"","idType":"National ID card","ci":"1708569866","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"939777628","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Cedeño Cedeño Darwin Jacinto","gender":"Male","birthdate":"","idType":"National ID card","ci":"1311791733","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"990606165","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Cedeño Cedeño Vicente Antonio","gender":"Male","birthdate":"","idType":"National ID card","ci":"1718046608","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"967179038","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Cedeño Cornejo Gustavo","gender":"Male","birthdate":"","idType":"National ID card","ci":"1705068250","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"989515435","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Cedeño Mejia Bercelio Rosendo","gender":"Male","birthdate":"","idType":"National ID card","ci":"1307431716","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"990169456","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Cedeño Moreira Reimundo Enrique","gender":"Male","birthdate":"","idType":"National ID card","ci":"1306390830","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"993550120","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"cedeño Zambrano Pedro Misael","gender":"Male","birthdate":"","idType":"National ID card","ci":"1706210653","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"997128409","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Centeno Aguilera Jonny Alberto","gender":"Male","birthdate":"","idType":"National ID card","ci":"1311568982","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"979579416","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Cevallos Alava Antonio Bolivar","gender":"Male","birthdate":"","idType":"National ID card","ci":"1313425884","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"979185049","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Cevallos Cevallos Edison Edigio","gender":"Male","birthdate":"","idType":"National ID card","ci":"1305674911","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"986536529","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Cevallos Zambrano Lester Juvenal","gender":"Male","birthdate":"","idType":"National ID card","ci":"1304454075","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"991687398","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Chica Espinoza Cruz Maryuri","gender":"Female","birthdate":"","idType":"National ID card","ci":"1304623448","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"990820990","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Chica Villalva Anthony Alexis","gender":"Male","birthdate":"","idType":"National ID card","ci":"1315137123","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"969077950","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Clavijo Guerrero Cristhian Ivan","gender":"Male","birthdate":"","idType":"National ID card","ci":"1313607325","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"990117420","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Cobeña Loor Hugo Hilario juvenal","gender":"Male","birthdate":"","idType":"National ID card","ci":"1304078403","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"996159012","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Cobos Correa Lorenzo  Amable","gender":"Male","birthdate":"","idType":"National ID card","ci":"1706192018","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"994946678","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Cornejo Bazurto Yair Dario","gender":"Male","birthdate":"","idType":"National ID card","ci":"0990792324","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"959742020","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Cornejo Cedeño Yair Dario","gender":"Male","birthdate":"","idType":"National ID card","ci":"1306144591","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"990792324","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Cruzatty Cedeño Pedro Jose","gender":"Male","birthdate":"","idType":"National ID card","ci":"1706201702","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"959493314","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Cusme Chavarria Dolores Jacqueline","gender":"Female","birthdate":"","idType":"National ID card","ci":"1310946973","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"984185755","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Delgado Cedeño Zoila Estrella","gender":"Female","birthdate":"","idType":"National ID card","ci":"1710392943","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"980277276","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Delgado Garcia Mercedes Ramona","gender":"Female","birthdate":"","idType":"National ID card","ci":"1309131751","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Delgado Napa Carmen Ofelia","gender":"Female","birthdate":"","idType":"National ID card","ci":"1306155100","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"997736131","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Delgado Orellana Enrique Eusebio","gender":"Male","birthdate":"","idType":"National ID card","ci":"1305980961","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"994230468","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Demera Chinga Gregorio Gonzalo","gender":"Male","birthdate":"","idType":"National ID card","ci":"1308810058","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"993463699","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Demera Echeverria Roddy Gonzalo","gender":"Male","birthdate":"","idType":"National ID card","ci":"1307260669","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"959817454","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Demera Pazmiño Pedro Adan","gender":"Male","birthdate":"","idType":"National ID card","ci":"","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"985749798","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Enriquez Madruñero Angel Alcides","gender":"Male","birthdate":"","idType":"National ID card","ci":"1711482610","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"993415586","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Enriquez Madruñero Manuel de Jesus","gender":"Male","birthdate":"","idType":"National ID card","ci":"1711482578","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"997710983","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Espinel Mera Milton Patricio","gender":"Male","birthdate":"","idType":"National ID card","ci":"1712880440","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"985793824","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Falconez Luna Rutty Alexandra","gender":"Female","birthdate":"","idType":"National ID card","ci":"1305956391","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"981027969","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Falconez Velez Jorge Miguel","gender":"Male","birthdate":"","idType":"National ID card","ci":"1307167559","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"999966412","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Falconez Velez Lorenzo Ramon","gender":"Male","birthdate":"","idType":"National ID card","ci":"1307364883","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"997424259","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Farias Mera Ariosto Geovanny","gender":"Male","birthdate":"","idType":"National ID card","ci":"2300246796","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"990607383","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Fernandez Duque Freddy Roberto","gender":"Male","birthdate":"","idType":"National ID card","ci":"1709162208","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"993173459","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Garcia Cevallos Orley Enrique","gender":"Male","birthdate":"","idType":"National ID card","ci":"1307958577","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"989344334","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Garcia Moreira Jose Norberto","gender":"Male","birthdate":"","idType":"National ID card","ci":"1705660403","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"986809283","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Garcia Torres Rafael Patricio","gender":"Male","birthdate":"","idType":"National ID card","ci":"0803821826","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"990441128","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Gonzales Marcillo Mariano Jesus","gender":"Male","birthdate":"","idType":"National ID card","ci":"1308691391","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"982624593","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Guerrero Anchundia Vanessa del Rocio","gender":"Female","birthdate":"","idType":"National ID card","ci":"1717284473","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Hernandez Medranda Adelma Elicenia","gender":"Female","birthdate":"","idType":"National ID card","ci":"1309261483","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"939335393","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Hidalgo Macias Freddy Antonio","gender":"Male","birthdate":"","idType":"National ID card","ci":"0802707000","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"969391347","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Intriago Castro Jorge Adrian","gender":"Male","birthdate":"","idType":"National ID card","ci":"1313913012","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"979954462","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Intriago Muñoz Robinson Arturo","gender":"Male","birthdate":"","idType":"National ID card","ci":"1304172578","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"988900365","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Iza Jairala Fanny Janeth","gender":"Female","birthdate":"","idType":"National ID card","ci":"1303234700","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"988056514","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Jara Moreira Carmen Rosario","gender":"Female","birthdate":"","idType":"National ID card","ci":"1720718343","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"990209945","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Jara Ramos Carmen Antioquia","gender":"Female","birthdate":"","idType":"National ID card","ci":"1306129584","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"983091480","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Lara Jara Ramona Gardenia","gender":"Female","birthdate":"","idType":"National ID card","ci":"131060123-0","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"983091480","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Lavanda Loor Ramon Rafael","gender":"Male","birthdate":"","idType":"National ID card","ci":"1308224714","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"969508478","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Legarda Canales Cristhian Clemente","gender":"Male","birthdate":"","idType":"National ID card","ci":"1718357625","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"990339408","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Leones Santos Deyse Mercedes","gender":"Female","birthdate":"","idType":"National ID card","ci":"1307362820","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"988948632","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Loor mendoza Ramon Jacinto","gender":"Male","birthdate":"","idType":"National ID card","ci":"1350471361","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"989550346","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Loor Zambrano Calixto Aparicio","gender":"Male","birthdate":"","idType":"National ID card","ci":"1309534830","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"980960445","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Lopez Marquines Antonio Manuel","gender":"Male","birthdate":"","idType":"National ID card","ci":"1309729299","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"968929010","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Lugo Zambrano Eliades Jacinto","gender":"Male","birthdate":"","idType":"National ID card","ci":"1304538372","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"987587670","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Macay Mejia Fernando Rafael","gender":"Male","birthdate":"","idType":"National ID card","ci":"1307879864","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"969135401","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Madruñero Alderete Maria Elvia","gender":"Female","birthdate":"","idType":"National ID card","ci":"1704321338","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"986073333","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Marmolejo Moreira David Hilario","gender":"Male","birthdate":"","idType":"National ID card","ci":"1706436266","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"991035321","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Marquinez Delgado Carlos Esteban","gender":"Male","birthdate":"","idType":"National ID card","ci":"1301696777","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"986489139","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Mendieta Loor Edgar Romerlin","gender":"Male","birthdate":"","idType":"National ID card","ci":"1711488963","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"990753041","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Mendieta Zambrano Francisco jesus","gender":"Male","birthdate":"","idType":"National ID card","ci":"1704696499","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"990753041","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Mendoza Angulo Carlos Eduardo","gender":"Male","birthdate":"","idType":"National ID card","ci":"1720393287","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"986483442","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Mendoza Ibarra Vicente Artemio","gender":"Male","birthdate":"","idType":"National ID card","ci":"1307993848","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"986018062","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Mendoza Vergara lider Eulogio","gender":"Male","birthdate":"","idType":"National ID card","ci":"1308180726","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"995304513","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Menendes Morales Jorge Ramon","gender":"Male","birthdate":"","idType":"National ID card","ci":"1301558316","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"981274786","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Menendez Valencia Oscar Benedicto","gender":"Male","birthdate":"","idType":"National ID card","ci":"1308835097","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"967121030","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Menoscal Robles Bayron Enrique","gender":"Male","birthdate":"","idType":"National ID card","ci":"0925756264","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"959030132","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Mesias Bravo Jose Reinaldo","gender":"Male","birthdate":"","idType":"National ID card","ci":"1708896509","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"987171058","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Montesdeoca  Vera  Jhonny Vicente","gender":"Male","birthdate":"","idType":"National ID card","ci":"1303223356","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"994185182","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Moreira Arteaga Ramon Cornelio","gender":"Male","birthdate":"","idType":"National ID card","ci":"1708692395","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"980403146","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Moreira Pulido Elaine Lenny","gender":"Male","birthdate":"","idType":"National ID card","ci":"1307564169","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"998161645","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Moreira Zambrano Rosa Cristina","gender":"Female","birthdate":"","idType":"National ID card","ci":"1306072255","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"982478775","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Muñoz  Velez Jose Aristides","gender":"Male","birthdate":"","idType":"National ID card","ci":"1724133911","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Muñoz Loor Edys Antonio","gender":"Male","birthdate":"","idType":"National ID card","ci":"1705240024","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"981069167","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Murillo Carrillo Marcos Abad","gender":"Male","birthdate":"","idType":"National ID card","ci":"1301696009","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"994585199","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Napa Intriago Carmen Maria","gender":"Female","birthdate":"","idType":"National ID card","ci":"1313070185","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"988520850","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Napa Intriago Limberg Alonso","gender":"Male","birthdate":"","idType":"National ID card","ci":"1307749752","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"911843924","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Napa Zambrano Martire Antonio","gender":"Male","birthdate":"","idType":"National ID card","ci":"1710019512","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"978909246","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Ocampo Mendieta Plinio Quintiliano","gender":"Male","birthdate":"","idType":"National ID card","ci":"17041601965","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"979417185","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Ochoa Ocampo Gladys Isabel","gender":"Female","birthdate":"","idType":"National ID card","ci":"1715947030","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"958653625","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Ojeda Palma Daniel Alejandro","gender":"Male","birthdate":"","idType":"National ID card","ci":"1315455574","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"998154003","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Olguin cornejo Jesus Antoni","gender":"Male","birthdate":"","idType":"National ID card","ci":"2300342678","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"994108119","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Oyague Romero Alexandra","gender":"Female","birthdate":"","idType":"National ID card","ci":"1305749226","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"980487157","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Oyague Romero Vilma Susana","gender":"Female","birthdate":"","idType":"National ID card","ci":"1302157340","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"993587497","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Paladines Sandoval Oreste Barbaro","gender":"Male","birthdate":"","idType":"National ID card","ci":"0800548463","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"939175622","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Paladines Zambrano Daniel Elias","gender":"Male","birthdate":"","idType":"National ID card","ci":"1724958085","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"959935736","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Parraga Loor Edwart Renet","gender":"Male","birthdate":"","idType":"National ID card","ci":"1305789529","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"994445107","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Parraga Palacios Denny Marianela","gender":"Male","birthdate":"","idType":"National ID card","ci":"1715328488","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"990301503","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Parraga Sabando Carlos Vicente","gender":"Male","birthdate":"","idType":"National ID card","ci":"1304031238","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"990297410","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Parrales Farfan Jose Leonardo","gender":"Male","birthdate":"","idType":"National ID card","ci":"1307944551","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"991972105","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Parrales Rivera Roque Gutember","gender":"Male","birthdate":"","idType":"National ID card","ci":"1303475733","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"997258556","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Patiño Cevallos Wilter Almicar","gender":"Male","birthdate":"","idType":"National ID card","ci":"1305740696","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"968378543","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Peñarrieta Anzules Alcides Javier","gender":"Male","birthdate":"","idType":"National ID card","ci":"1720717394","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"991860137","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Pin Solorzano Maria Elvia","gender":"Female","birthdate":"","idType":"National ID card","ci":"2250043763","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"990340511","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Pinargote Solorzano Edison Eduardo","gender":"Male","birthdate":"","idType":"National ID card","ci":"1306697234","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"988905010","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Pincay Cesar Octavio","gender":"Male","birthdate":"","idType":"National ID card","ci":"1305946616","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"991504293","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Ramirez Conforme Ramon Wilfrido","gender":"Male","birthdate":"","idType":"National ID card","ci":"1304759218","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"981599409","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Rivas Araujo Ecuador","gender":"Male","birthdate":"","idType":"National ID card","ci":"1305718213","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"993383041","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Rodriguez Cedeño Maria Teresa","gender":"Female","birthdate":"","idType":"National ID card","ci":"1301691778","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"989773766","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Rodriguez Celorio Juan Carlos","gender":"Male","birthdate":"","idType":"National ID card","ci":"1713545588","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"984658907","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Rodriguez Delgado Eddy Jose","gender":"Male","birthdate":"","idType":"National ID card","ci":"1305718213","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"993383041","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Rodriguez Lopez Raul Antonio","gender":"Male","birthdate":"","idType":"National ID card","ci":"1305173112","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"969572914","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Rodriguez Navarrete Roque leonardo","gender":"Male","birthdate":"","idType":"National ID card","ci":"1306829969","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"969012048","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Rodriguez Zambrano Jose Luis","gender":"Male","birthdate":"","idType":"National ID card","ci":"0801895392","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"989217665","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Romero Jacobo","gender":"Male","birthdate":"","idType":"National ID card","ci":"1305082552","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"968854729","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Ruiz Oyague Carlos Eduardo","gender":"Male","birthdate":"","idType":"National ID card","ci":"1307965499","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"927283348","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Sacon Bravo Enny  Edmundo","gender":"Male","birthdate":"","idType":"National ID card","ci":"1306096163","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"989609416","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Sacon Vega Carlos David","gender":"Male","birthdate":"","idType":"National ID card","ci":"2300719834","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"989609416","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Saldarreaga Montalvan Guido Temistocle","gender":"Male","birthdate":"","idType":"National ID card","ci":"1708407208","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"986613021","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Sanchez Meza Tany Orley","gender":"Male","birthdate":"","idType":"National ID card","ci":"1307668408","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"981587577","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Soledispa Parraga Juan Joselito","gender":"Male","birthdate":"","idType":"National ID card","ci":"1304454083","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"986845185","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Soliz Solorzano Longino Esteban","gender":"Male","birthdate":"","idType":"National ID card","ci":"1302474570","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"993722305","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Solorzano Cedeño Jose Enrique","gender":"Male","birthdate":"","idType":"National ID card","ci":"1308376217","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"979619928","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Solorzano Garcia Luis Antonio","gender":"Male","birthdate":"","idType":"National ID card","ci":"1311883209","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"979602944","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Solorzano Muñoz Luis freddy","gender":"Male","birthdate":"","idType":"National ID card","ci":"1301548374","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"993116111","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Solorzano Romero Anthony Rafael","gender":"Male","birthdate":"","idType":"National ID card","ci":"1724957913","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"963232581","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Solorzano Velasquez Benito Artimidoro","gender":"Male","birthdate":"","idType":"National ID card","ci":"1711032704","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"985553280","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Torres Bermeo Alfonso Salvador","gender":"Male","birthdate":"","idType":"National ID card","ci":"1714605191","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"989537749","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Trujillo Caicedo Kelly Daniela","gender":"Female","birthdate":"","idType":"National ID card","ci":"1723393953","province":"Santo Domingo","canton":"Santo Domingo","city":"Santo Domingo","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"998176449","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Valarezo Marcillo carlos Figueroa","gender":"Male","birthdate":"","idType":"National ID card","ci":"","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"991602535","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Valdez Bravo Eddy Maron","gender":"Male","birthdate":"","idType":"National ID card","ci":"1715947949","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"979669197","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Valdez Diaz Jose Onofre","gender":"Male","birthdate":"","idType":"National ID card","ci":"1312053679","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"978908983","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Vargas Haro Segundo Odilio","gender":"Male","birthdate":"","idType":"National ID card","ci":"1701839514","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"980894232","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Vasquez alvarez Manuel Edurado","gender":"Male","birthdate":"","idType":"National ID card","ci":"1711803260","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"985574574","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Vega Balcazar Edison Ricardo","gender":"Male","birthdate":"","idType":"National ID card","ci":"1713180493","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"969649454","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Velez Barberan Juan carlos","gender":"Male","birthdate":"","idType":"National ID card","ci":"1721954129","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"985196278","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Velez Bravo Maria Esperanza","gender":"Female","birthdate":"","idType":"National ID card","ci":"1305570085","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"985710193","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Velez Farias Jose Walter","gender":"Male","birthdate":"","idType":"National ID card","ci":"1709303000","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"993921255","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Velez Ortega Hugo Arcesio","gender":"Male","birthdate":"","idType":"National ID card","ci":"1305539395","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"990284603","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Veliz Cedeño Luis Ramiro","gender":"Male","birthdate":"","idType":"National ID card","ci":"1708247760","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"985179766","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Veliz Toala Kathia Denisse","gender":"Female","birthdate":"","idType":"National ID card","ci":"1314030386","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"959609734","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Vera Leones Miguel Angel","gender":"Male","birthdate":"","idType":"National ID card","ci":"1305675181","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"988502864","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Vera Mendoza Carlos Ivan","gender":"Male","birthdate":"","idType":"National ID card","ci":"1317150934","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"959402694","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Vera Mendoza Urbano Eleuterio","gender":"Male","birthdate":"","idType":"National ID card","ci":"1714372347","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"999522934","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Vera Vera  Nelly Lucia","gender":"Female","birthdate":"","idType":"National ID card","ci":"1706643325","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"984020680","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Vidal bazurto Vicente Ubaldo","gender":"Male","birthdate":"","idType":"National ID card","ci":"1706214648","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"994874499","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Villalva Vega Wagner Abad","gender":"Male","birthdate":"","idType":"National ID card","ci":"1302769839","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"985359854","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Villamar Ormaza Enrique Mauro","gender":"Male","birthdate":"","idType":"National ID card","ci":"1703821643","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"990022054","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Villigua Vaque Wilson Ecuador","gender":"Male","birthdate":"","idType":"National ID card","ci":"1308912268","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"999401417","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Zambrano Cagua Carlos Enrique","gender":"Male","birthdate":"","idType":"National ID card","ci":"1305784199","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"992705288","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Zambrano Delgado Petita Esperanza","gender":"Female","birthdate":"","idType":"National ID card","ci":"1709874422","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"981657757","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Zambrano Dueñas Jose Ricardo Vicente","gender":"Male","birthdate":"","idType":"National ID card","ci":"1303198780","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"981806484","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Zambrano Loor David Antonio","gender":"Male","birthdate":"","idType":"National ID card","ci":"1300495007","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"993570090","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Zambrano Macias Horacio Antonio","gender":"Male","birthdate":"","idType":"National ID card","ci":"1303389512","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"988208888","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Zambrano Mero Jorge Stalim","gender":"Male","birthdate":"","idType":"National ID card","ci":"o802255646","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"982981273","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Zambrano Montesdeoca Nigson Idulfo","gender":"Male","birthdate":"","idType":"National ID card","ci":"1708429053","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"986489139","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Zambrano Vera Floridelba Auxiliadora","gender":"Female","birthdate":"","idType":"National ID card","ci":"1709183485","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"990738994","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Zambrano Vera Manuel Trinidad","gender":"Male","birthdate":"","idType":"National ID card","ci":"1309483491","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"982823755","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Zambrano Vidal Javier Ilario","gender":"Male","birthdate":"","idType":"National ID card","ci":"1308828589","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"959723792","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Zambrano Zambrano Andres Horacio","gender":"Male","birthdate":"","idType":"National ID card","ci":"1311445678","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"999171835","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Zambrano Zambrano David Fabricio","gender":"Male","birthdate":"","idType":"National ID card","ci":"1727985929","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"967738162","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Zambrano Zambrano Horacio Antonio","gender":"Male","birthdate":"","idType":"National ID card","ci":"1310547219","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"982506968","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Zambrano Zambrano Javier Horacio","gender":"Male","birthdate":"","idType":"National ID card","ci":"1310547219","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"993862945","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Zambrano Zambrano Jose Alfredo","gender":"Male","birthdate":"","idType":"National ID card","ci":"1310011331","province":"ESMERALDAS","canton":"MUISNE","city":"","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"986673676","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"zambrano Zambrano Ramon Perfecto","gender":"Male","birthdate":"","idType":"National ID card","ci":"1304012436","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"990825497","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Zambrano Zambrano Tito Enrique","gender":"Male","birthdate":"","idType":"National ID card","ci":"1302937428","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"994706866","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false},{"id":"","name":"Zambrano Zambrano Wilmer Francisco","gender":"Male","birthdate":"","idType":"National ID card","ci":"1308226016","province":"Manabi","canton":"EL CARMEN","city":"EL CARMEN","address":"","smartphone":"Yes","phoneType":"Smartphone (Android/iPhone)","phoneCode":"593","phone":"979612792","farmerType":"Normal","marital":"","education":"","liveOnFarm":"","nCocoaPlots":"1","farmerGroup":"","farmerCoop":"","groupName":"","coopName":"","utz":"","otherProg":"","startUtz":"","isNew":false}]
 ;
 
 let db,curP=null,curGPS=null,frows=[],lrows=[],fc=0,lc=0;
-const DB='eudr_mb_v1',ST='surveys';
+const DB='eudr_mb_v2',ST='surveys';
 
-// ── IndexedDB ──
-async function idb(){return new Promise((r,j)=>{const q=indexedDB.open(DB,1);q.onupgradeneeded=e=>{const d=e.target.result;if(!d.objectStoreNames.contains(ST))d.createObjectStore(ST,{keyPath:'id'});};q.onsuccess=e=>{db=e.target.result;r();};q.onerror=e=>j(e);});}
-async function dput(o){return new Promise((r,j)=>{const t=db.transaction(ST,'readwrite');t.objectStore(ST).put(o);t.oncomplete=()=>r();t.onerror=e=>j(e);});}
-async function dall(){return new Promise((r,j)=>{const t=db.transaction(ST,'readonly'),q=t.objectStore(ST).getAll();q.onsuccess=()=>r(q.result);q.onerror=e=>j(e);});}
-async function dupd(id,patch){const t=db.transaction(ST,'readwrite'),s=t.objectStore(ST),r=s.get(id);return new Promise((res,rej)=>{r.onsuccess=()=>{const obj={...r.result,...patch};s.put(obj);t.oncomplete=()=>res();};r.onerror=e=>rej(e);});}
+// ── IndexedDB con respaldo en localStorage ──
+async function idb(){
+  return new Promise((r,j)=>{
+    const q=indexedDB.open(DB,1);
+    q.onupgradeneeded=e=>{
+      const d=e.target.result;
+      if(!d.objectStoreNames.contains(ST))
+        d.createObjectStore(ST,{keyPath:'id'});
+    };
+    q.onsuccess=e=>{db=e.target.result;r();};
+    q.onerror=e=>j(e);
+  });
+}
+async function dput(o){
+  // IndexedDB
+  await new Promise((r,j)=>{
+    const t=db.transaction(ST,'readwrite');
+    t.objectStore(ST).put(o);
+    t.oncomplete=()=>r();t.onerror=e=>j(e);
+  });
+  // Respaldo localStorage
+  try{
+    const all=JSON.parse(localStorage.getItem(DB+'_bk')||'[]');
+    const idx=all.findIndex(x=>x.id===o.id);
+    if(idx>=0)all[idx]=o;else all.push(o);
+    localStorage.setItem(DB+'_bk',JSON.stringify(all));
+  }catch(e){}
+}
+async function dall(){
+  return new Promise((r,j)=>{
+    const t=db.transaction(ST,'readonly'),q=t.objectStore(ST).getAll();
+    q.onsuccess=()=>r(q.result);q.onerror=e=>j(e);
+  });
+}
+async function dupd(id,patch){
+  return new Promise((res,rej)=>{
+    const t=db.transaction(ST,'readwrite'),s=t.objectStore(ST),req=s.get(id);
+    req.onsuccess=()=>{
+      const obj={...req.result,...patch};s.put(obj);
+      // actualizar localStorage también
+      try{
+        const all=JSON.parse(localStorage.getItem(DB+'_bk')||'[]');
+        const idx=all.findIndex(x=>x.id===id);
+        if(idx>=0)all[idx]=obj;
+        localStorage.setItem(DB+'_bk',JSON.stringify(all));
+      }catch(e){}
+      t.oncomplete=()=>res();
+    };
+    req.onerror=e=>rej(e);
+  });
+}
+// Recuperar desde localStorage si IndexedDB está vacío
+async function restoreFromBackup(){
+  const data=await dall();
+  if(data.length>0)return;
+  try{
+    const bk=JSON.parse(localStorage.getItem(DB+'_bk')||'[]');
+    for(const o of bk){
+      await new Promise((r,j)=>{
+        const t=db.transaction(ST,'readwrite');
+        t.objectStore(ST).put(o);
+        t.oncomplete=()=>r();t.onerror=e=>j(e);
+      });
+    }
+    if(bk.length>0)toast('✓ Datos recuperados del respaldo ('+bk.length+')','ok');
+  }catch(e){}
+}
 
 // ── Tabs ──
-function sw(i){document.querySelectorAll('.tb').forEach((b,x)=>b.classList.toggle('act',x===i));document.querySelectorAll('.panel').forEach((p,x)=>p.classList.toggle('act',x===i));if(i===3)lrec();}
+function sw(i){
+  document.querySelectorAll('.tb').forEach((b,x)=>b.classList.toggle('act',x===i));
+  document.querySelectorAll('.panel').forEach((p,x)=>p.classList.toggle('act',x===i));
+  acd.classList.remove('open');
+  if(i===3)lrec();
+}
 
 // ── Connection ──
 function ucon(){
-  const online=navigator.onLine;
+  const on=navigator.onLine;
   const sb=document.getElementById('sbadge');
-  const synbtn=document.getElementById('syncbtn');
-  const bsynclg=document.getElementById('bsynclg');
-  const synct=document.getElementById('synct');
-  const syncm=document.getElementById('syncm');
-  if(online){
+  const synb=document.getElementById('syncbtn');
+  const bl=document.getElementById('bsynclg');
+  const st=document.getElementById('synct');
+  const sm=document.getElementById('syncm');
+  if(on){
     sb.textContent='🟢 Online';sb.className='on';
-    synbtn.classList.add('vis');
-    bsynclg.disabled=false;
-    synct.textContent='Conexión disponible';
-    syncm.textContent='Puede sincronizar sus encuestas con Google Sheets';
+    synb.classList.add('vis');bl.disabled=false;
+    st.textContent='Conexión disponible';
+    sm.textContent='Puede sincronizar con Google Sheets';
   }else{
-    sb.textContent='⚫ Sin conexión';sb.className='off';
-    synbtn.classList.remove('vis');
-    bsynclg.disabled=true;
-    synct.textContent='Sin conexión a internet';
-    syncm.textContent='Los datos se guardan localmente en este dispositivo';
+    sb.textContent='⚫ Sin conexión';sb.className='';
+    synb.classList.remove('vis');bl.disabled=true;
+    st.textContent='Sin conexión a internet';
+    sm.textContent='Los datos están guardados localmente, seguros';
   }
 }
 window.addEventListener('online',ucon);
@@ -520,22 +452,31 @@ window.addEventListener('offline',ucon);
 // ── Autocomplete ──
 const si=document.getElementById('sq'),acd=document.getElementById('acd');
 let af=-1;
+
+function positionDrop(){
+  const rect=si.getBoundingClientRect();
+  acd.style.top=(rect.bottom+window.scrollY+3)+'px';
+}
+
 si.addEventListener('input',()=>{
   const q=si.value.trim().toLowerCase();af=-1;
   if(!q){acd.classList.remove('open');return;}
-  const m=P.filter(p=>p.name.toLowerCase().includes(q)||p.ci.includes(q)).slice(0,10);
+  const m=P.filter(p=>p.name.toLowerCase().includes(q)||p.ci.includes(q)).slice(0,12);
   acd.innerHTML='';
   m.forEach(p=>{
     const d=document.createElement('div');d.className='acit';
     d.innerHTML='<strong>'+p.name+'</strong><span>CI: '+(p.ci||'—')+' · '+(p.gender==='Male'?'Masc.':'Fem.')+'</span>';
-    d.onclick=()=>selp(p);acd.appendChild(d);
+    d.onclick=()=>selp(p);
+    acd.appendChild(d);
   });
   const nd=document.createElement('div');nd.className='acit neu';
-  nd.innerHTML='<strong>➕ Nuevo productor: "'+si.value.trim()+'"</strong><span>No está en la lista</span>';
+  nd.innerHTML='<strong>➕ Nuevo: "'+si.value.trim()+'"</strong><span>No está en la lista</span>';
   nd.onclick=()=>addnew(si.value.trim());
   acd.appendChild(nd);
+  positionDrop();
   acd.classList.add('open');
 });
+
 si.addEventListener('keydown',e=>{
   const its=acd.querySelectorAll('.acit');
   if(e.key==='ArrowDown'){af=Math.min(af+1,its.length-1);hlac(its);}
@@ -544,12 +485,14 @@ si.addEventListener('keydown',e=>{
   else if(e.key==='Escape'){acd.classList.remove('open');}
 });
 function hlac(its){its.forEach((el,i)=>el.classList.toggle('foc',i===af));if(its[af])its[af].scrollIntoView({block:'nearest'});}
-document.addEventListener('click',e=>{if(!e.target.closest('.acwrap'))acd.classList.remove('open');});
+document.addEventListener('click',e=>{if(!e.target.closest('.acwrap')&&e.target!==acd)acd.classList.remove('open');});
+window.addEventListener('scroll',()=>{if(acd.classList.contains('open'))positionDrop();},{passive:true});
+window.addEventListener('resize',()=>{if(acd.classList.contains('open'))positionDrop();});
 
-function selp(p){curP=JSON.parse(JSON.stringify(p));acd.classList.remove('open');si.value='';document.getElementById('spn').textContent=p.name;document.getElementById('spci').textContent='CI: '+(p.ci||'—');document.getElementById('selp').classList.add('vis');document.getElementById('ntag').textContent='';popf(p);show();}
-function addnew(n){const p={id:'',name:n,gender:'',birthdate:'',idType:'National ID card',ci:'',province:'Manabi',canton:'EL CARMEN',city:'EL CARMEN',address:'',smartphone:'Yes',phoneType:'Smartphone (Android/iPhone)',phoneCode:'593',phone:'',farmerType:'Normal',marital:'',education:'',liveOnFarm:'',nCocoaPlots:'1',farmerGroup:'',farmerCoop:'',groupName:'',coopName:'',utz:'',otherProg:'',startUtz:'',isNew:true};curP=p;acd.classList.remove('open');si.value='';document.getElementById('spn').textContent=n+' (Nuevo)';document.getElementById('spci').textContent='CI: pendiente';document.getElementById('selp').classList.add('vis');document.getElementById('ntag').textContent='· Nuevo';popf(p);show();}
-function show(){['fc','gc','phc'].forEach(id=>document.getElementById(id).style.display='');}
-function clrp(){curP=null;curGPS=null;document.getElementById('selp').classList.remove('vis');['fc','gc','phc'].forEach(id=>document.getElementById(id).style.display='none');document.getElementById('gcoords').textContent='Sin coordenadas';document.getElementById('gstat').textContent='Presione para obtener';document.getElementById('phimg').style.display='none';document.getElementById('fph2').value='';document.getElementById('glat').value='';document.getElementById('glng').value='';frows=[];lrows=[];rft();rlt();}
+function selp(p){curP=JSON.parse(JSON.stringify(p));acd.classList.remove('open');si.value='';document.getElementById('spn').textContent=p.name;document.getElementById('spci').textContent='CI: '+(p.ci||'—');document.getElementById('selp').classList.add('vis');document.getElementById('ntag').textContent='';popf(p);showCards();}
+function addnew(n){const p={id:'',name:n,gender:'',birthdate:'',idType:'National ID card',ci:'',province:'Manabi',canton:'EL CARMEN',city:'EL CARMEN',address:'',smartphone:'Yes',phoneType:'Smartphone (Android/iPhone)',phoneCode:'593',phone:'',farmerType:'Normal',marital:'',education:'',liveOnFarm:'',nCocoaPlots:'1',farmerGroup:'',farmerCoop:'',groupName:'',coopName:'',utz:'',otherProg:'',startUtz:'',isNew:true};curP=p;acd.classList.remove('open');si.value='';document.getElementById('spn').textContent=n+' (Nuevo)';document.getElementById('spci').textContent='CI: pendiente';document.getElementById('selp').classList.add('vis');document.getElementById('ntag').textContent='· Nuevo';popf(p);showCards();}
+function showCards(){['fc','gc','phc'].forEach(id=>document.getElementById(id).style.display='');}
+function clrp(){curP=null;curGPS=null;document.getElementById('selp').classList.remove('vis');['fc','gc','phc'].forEach(id=>document.getElementById(id).style.display='none');document.getElementById('gcoords').textContent='Sin coordenadas';document.getElementById('gstat').textContent='Presione para obtener';document.getElementById('phimg').style.display='none';document.getElementById('fph2').value='';document.getElementById('glat').value='';document.getElementById('glng').value='';frows=[];lrows=[];fc=0;lc=0;rft();rlt();}
 function popf(p){const s=(id,v)=>{const e=document.getElementById(id);if(e)e.value=v||'';};s('fn',p.name);s('fg',p.gender);s('fit',p.idType||'National ID card');s('fci',p.ci);s('fbd',p.birthdate);s('fpv',p.province||'Manabi');s('fct',p.canton||'EL CARMEN');s('fcy',p.city||'EL CARMEN');s('fad',p.address);s('fsp',p.smartphone||'Yes');s('fpt',p.phoneType||'Smartphone (Android/iPhone)');s('fph',p.phone);s('fmc',p.marital);s('fed',p.education);s('fft',p.farmerType||'Normal');s('flf',p.liveOnFarm);s('fnp',p.nCocoaPlots||'1');s('ffg',p.farmerGroup);s('ffc',p.farmerCoop);s('fgni',p.groupName);s('fcni',p.coopName);s('futz',p.utz);s('fop',p.otherProg);s('fsu',p.startUtz);tgn();tcn();}
 function tgn(){document.getElementById('fgn').style.display=document.getElementById('ffg').value==='Yes'?'':'none';}
 function tcn(){document.getElementById('fcn').style.display=document.getElementById('ffc').value==='Yes'?'':'none';}
@@ -559,15 +502,15 @@ async function doGPS(){
   document.getElementById('gstat').textContent='Obteniendo GPS...';
   if(!navigator.geolocation){document.getElementById('gstat').textContent='GPS no soportado — use coordenadas manuales';return;}
   try{
-    const p=await new Promise((r,j)=>navigator.geolocation.getCurrentPosition(r,j,{enableHighAccuracy:true,timeout:15000,maximumAge:0}));
-    curGPS={lat:p.coords.latitude,lng:p.coords.longitude,acc:p.coords.accuracy};
+    const pos=await new Promise((r,j)=>navigator.geolocation.getCurrentPosition(r,j,{enableHighAccuracy:true,timeout:15000,maximumAge:0}));
+    curGPS={lat:pos.coords.latitude,lng:pos.coords.longitude,acc:pos.coords.accuracy};
     document.getElementById('gcoords').textContent=curGPS.lat.toFixed(6)+', '+curGPS.lng.toFixed(6);
     document.getElementById('gstat').textContent='Precisión: ±'+Math.round(curGPS.acc)+' m';
     document.getElementById('glat').value=curGPS.lat;
     document.getElementById('glng').value=curGPS.lng;
   }catch(e){
-    const msg=e.code===1?'Permiso GPS denegado':e.code===2?'GPS no disponible':'GPS tardó demasiado';
-    document.getElementById('gstat').textContent=msg+' — use coordenadas manuales';
+    const msg=e.code===1?'Permiso GPS denegado — use coordenadas manuales':e.code===2?'GPS no disponible — use coordenadas manuales':'GPS tardó demasiado — use coordenadas manuales';
+    document.getElementById('gstat').textContent=msg;
   }
 }
 function setManualGPS(){
@@ -576,7 +519,7 @@ function setManualGPS(){
   if(isNaN(lat)||isNaN(lng)){toast('⚠️ Ingrese latitud y longitud válidas','er');return;}
   curGPS={lat,lng,acc:'manual'};
   document.getElementById('gcoords').textContent=lat.toFixed(6)+', '+lng.toFixed(6);
-  document.getElementById('gstat').textContent='Coordenadas ingresadas manualmente';
+  document.getElementById('gstat').textContent='Ingresado manualmente';
   toast('✓ Coordenadas guardadas','ok');
 }
 
@@ -584,9 +527,7 @@ function setManualGPS(){
 function prvph(){const f=document.getElementById('fph2').files[0];if(!f)return;const r=new FileReader();r.onload=ev=>{const i=document.getElementById('phimg');i.src=ev.target.result;i.style.display='block';};r.readAsDataURL(f);}
 
 // ── Family ──
-const FREL=['Spouse','Child','Parent','Sibling','Other'];
-const EDU=['No Education','Primary','Secondary','Vocational','University'];
-const GND=['Male','Female'];
+const FREL=['Spouse','Child','Parent','Sibling','Other'],EDU=['No Education','Primary','Secondary','Vocational','University'],GND=['Male','Female'];
 function afr(){frows.push({id:++fc});rft();}
 function rfr(id){frows=frows.filter(r=>r.id!==id);rft();}
 function rft(){
@@ -621,8 +562,11 @@ async function save(){
     producer:{externalId:curP.id||'',name,gender:document.getElementById('fg').value,birthdate:document.getElementById('fbd').value,idType:document.getElementById('fit').value,ci,province:document.getElementById('fpv').value,canton:document.getElementById('fct').value,city:document.getElementById('fcy').value,address:document.getElementById('fad').value,smartphone:document.getElementById('fsp').value,phoneType:document.getElementById('fpt').value,phoneCode:'593',phone:document.getElementById('fph').value,farmerType:document.getElementById('fft').value,maritalStatus:document.getElementById('fmc').value,education:document.getElementById('fed').value,liveOnFarm:document.getElementById('flf').value,nCocoaPlots:document.getElementById('fnp').value,farmerGroup:document.getElementById('ffg').value,farmerCoop:document.getElementById('ffc').value,groupName:document.getElementById('fgni').value,coopName:document.getElementById('fcni').value,utz:document.getElementById('futz').value,otherProg:document.getElementById('fop').value,startUtz:document.getElementById('fsu').value,isNew:curP.isNew||false},
     family:cfd(),labor:cld()
   };
-  try{await dput(s);toast('✓ Encuesta guardada','ok');uprog();clrp();sw(0);}
-  catch(e){toast('Error al guardar: '+e.message,'er');}
+  try{
+    await dput(s);
+    toast('✓ Encuesta guardada','ok');
+    uprog();clrp();sw(0);
+  }catch(e){toast('Error al guardar: '+e.message,'er');}
 }
 function rst(){if(!confirm('¿Limpiar el formulario actual?'))return;clrp();}
 
@@ -633,8 +577,8 @@ async function lrec(){
   document.getElementById('rb').textContent=data.length;
   const pend=data.filter(s=>!s.synced).length;
   document.getElementById('syncm').textContent=navigator.onLine
-    ?(pend>0?pend+' encuesta(s) pendientes de sincronizar':'Todas las encuestas están sincronizadas')
-    :'Los datos se guardan localmente en este dispositivo';
+    ?(pend>0?pend+' encuesta(s) pendientes de sincronizar':'✓ Todo sincronizado')
+    :'Datos guardados localmente, seguros';
   if(!data.length){el.innerHTML='<div class="empty"><div class="ei">📭</div><p>Aún no hay encuestas guardadas</p></div>';return;}
   el.innerHTML=[...data].sort((a,b)=>b.id-a.id).map(s=>`
     <div class="scard">
@@ -661,35 +605,65 @@ async function syncAll(){
   const btn=document.getElementById('bsynclg');
   const sbtn=document.getElementById('syncbtn');
   btn.disabled=true;btn.textContent='Enviando...';
-  sbtn.disabled=true;
+  sbtn.disabled=true;sbtn.textContent='⏳';
   try{
-    const resp=await fetch(SYNC_URL,{method:'POST',body:JSON.stringify({surveys:pending}),headers:{'Content-Type':'application/json'}});
+    const resp=await fetch(SYNC_URL,{
+      method:'POST',
+      body:JSON.stringify({surveys:pending}),
+      headers:{'Content-Type':'text/plain'}
+    });
     const result=await resp.json();
     if(result.ok){
-      for(const s of pending) await dupd(s.id,{synced:true});
-      toast('✓ '+result.added+' encuesta(s) sincronizadas','ok');
+      for(const s of pending)await dupd(s.id,{synced:true});
+      toast('✓ '+result.added+' encuesta(s) subidas a Google Sheets','ok');
       lrec();uprog();
-    }else{toast('Error del servidor: '+(result.error||'desconocido'),'er');}
+    }else{
+      toast('Error: '+(result.error||'revise el script'),'er');
+    }
   }catch(e){
-    toast('⚠️ No se pudo conectar al servidor','er');
+    toast('⚠️ No se pudo conectar. Intente de nuevo.','er');
   }finally{
     btn.disabled=false;btn.textContent='Sincronizar';
-    sbtn.disabled=false;
+    sbtn.disabled=false;sbtn.textContent='☁️ Sincronizar';
   }
 }
 
-// ── Export ──
+// ── Export JSON ──
 async function expJSON(){
   const data=await dall();
   if(!data.length){toast('No hay datos para exportar','er');return;}
   const out={exported_at:new Date().toISOString(),total:data.length,
-    sheet_1B:data.map(s=>({RecordID:s.id,ExternalID:s.producer?.externalId||'',SupplierName:s.producer?.name||'',Gender:s.producer?.gender||'',Birthdate:s.producer?.birthdate||'',IDType:s.producer?.idType||'',IDNo:s.producer?.ci||'',District:s.producer?.province||'',Region:s.producer?.canton||'',Department:s.producer?.city||'',Address:s.producer?.address||'',AccessToSmartPhone:s.producer?.smartphone||'',HandphoneType:s.producer?.phoneType||'',HandPhoneCode:'593',HandPhone:s.producer?.phone||'',FarmerType:s.producer?.farmerType||'',MaritalStatus:s.producer?.maritalStatus||'',Education:s.producer?.education||'',LiveOnFarm:s.producer?.liveOnFarm||'',NrOfCocoaPlots:s.producer?.nCocoaPlots||'',FarmerOrgGroup:s.producer?.farmerGroup||'',FarmerOrgCoop:s.producer?.farmerCoop||'',FarmerGroupName:s.producer?.groupName||'',FarmerCoop:s.producer?.coopName||'',ProgUTZ:s.producer?.utz||'',ProgOther:s.producer?.otherProg||'',StartUTZ:s.producer?.startUtz||'',GPS_Lat:s.gps?.lat||'',GPS_Lng:s.gps?.lng||'',GPS_Acc:s.gps?.acc||'',IsNew:s.producer?.isNew||false,RecordedAt:s.createdAt,Synced:s.synced})),
-    sheet_1B_Family:data.flatMap(s=>(s.family||[]).map(f=>({RecordID:s.id,ExternalID_Ref:s.producer?.ci||'',ProducerName:s.producer?.name||'',FamName:f.name,Gender:f.gender,BirthYear:f.birthYear,FamRelation:f.relation,InSchool:f.inSchool,Education:f.education,WorkInFarm:f.workInFarm}))),
-    sheet_1B_Labor:data.flatMap(s=>(s.labor||[]).map(l=>({RecordID:s.id,ExternalID_Ref:s.producer?.ci||'',ProducerName:s.producer?.name||'',LabName:l.name,Gender:l.gender,BirthYear:l.birthYear,Education:l.education,WorkStatus:l.workStatus})))};
+    sheet_1B:data.map(s=>({RecordID:s.id,Nombre:s.producer?.name||'',Genero:s.producer?.gender||'',Fecha_Nac:s.producer?.birthdate||'',Tipo_ID:s.producer?.idType||'',Cedula:s.producer?.ci||'',Provincia:s.producer?.province||'',Canton:s.producer?.canton||'',Ciudad:s.producer?.city||'',Direccion:s.producer?.address||'',Smartphone:s.producer?.smartphone||'',Tipo_Tel:s.producer?.phoneType||'',Celular:s.producer?.phone||'',Tipo_Agricultor:s.producer?.farmerType||'',Estado_Civil:s.producer?.maritalStatus||'',Educacion:s.producer?.education||'',Vive_Finca:s.producer?.liveOnFarm||'',N_Parcelas:s.producer?.nCocoaPlots||'',Grupo:s.producer?.farmerGroup||'',Cooperativa:s.producer?.farmerCoop||'',Nombre_Grupo:s.producer?.groupName||'',Nombre_Coop:s.producer?.coopName||'',UTZ:s.producer?.utz||'',Otro_Prog:s.producer?.otherProg||'',Inicio_UTZ:s.producer?.startUtz||'',GPS_Lat:s.gps?.lat||'',GPS_Lng:s.gps?.lng||'',GPS_Precision:s.gps?.acc||'',Es_Nuevo:s.producer?.isNew||false,Fecha_Registro:s.createdAt,Sincronizado:s.synced})),
+    familia:data.flatMap(s=>(s.family||[]).map(f=>({RecordID_Ref:s.id,Cedula_Productor:s.producer?.ci||'',Nombre_Productor:s.producer?.name||'',Nombre_Familiar:f.name,Genero:f.gender,Anio_Nac:f.birthYear,Relacion:f.relation,En_Escuela:f.inSchool,Educacion:f.education,Trabaja_Finca:f.workInFarm}))),
+    trabajadores:data.flatMap(s=>(s.labor||[]).map(l=>({RecordID_Ref:s.id,Cedula_Productor:s.producer?.ci||'',Nombre_Productor:s.producer?.name||'',Nombre_Trabajador:l.name,Genero:l.gender,Anio_Nac:l.birthYear,Educacion:l.education,Tipo_Jornada:l.workStatus})))
+  };
   const b=new Blob([JSON.stringify(out,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(b);
   a.download='EUDR_Megablessing_'+new Date().toISOString().slice(0,10)+'.json';a.click();
   toast('✓ JSON descargado','ok');
+}
+
+// ── Export Excel (XLSX sin librería externa) ──
+async function expExcel(){
+  const data=await dall();
+  if(!data.length){toast('No hay datos para exportar','er');return;}
+
+  function esc(v){return String(v==null?'':v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+  function row(cells){return '<Row>'+cells.map(c=>`<Cell><Data ss:Type="String">${esc(c)}</Data></Cell>`).join('')+'</Row>';}
+  function sheet(name,rows){return `<Worksheet ss:Name="${esc(name)}"><Table>${rows.join('')}</Table></Worksheet>`;}
+
+  const h1=[row(['RecordID','Nombre','Genero','Fecha_Nac','Tipo_ID','Cedula','Provincia','Canton','Ciudad','Direccion','Smartphone','Tipo_Tel','Celular','Tipo_Agricultor','Estado_Civil','Educacion','Vive_Finca','N_Parcelas','Grupo','Cooperativa','Nombre_Grupo','Nombre_Coop','UTZ','Otro_Prog','Inicio_UTZ','GPS_Lat','GPS_Lng','GPS_Precision','Es_Nuevo','Fecha_Registro','Sincronizado']),...data.map(s=>row([s.id,s.producer?.name||'',s.producer?.gender||'',s.producer?.birthdate||'',s.producer?.idType||'',s.producer?.ci||'',s.producer?.province||'',s.producer?.canton||'',s.producer?.city||'',s.producer?.address||'',s.producer?.smartphone||'',s.producer?.phoneType||'',s.producer?.phone||'',s.producer?.farmerType||'',s.producer?.maritalStatus||'',s.producer?.education||'',s.producer?.liveOnFarm||'',s.producer?.nCocoaPlots||'',s.producer?.farmerGroup||'',s.producer?.farmerCoop||'',s.producer?.groupName||'',s.producer?.coopName||'',s.producer?.utz||'',s.producer?.otherProg||'',s.producer?.startUtz||'',s.gps?.lat||'',s.gps?.lng||'',s.gps?.acc||'',s.producer?.isNew||false,s.createdAt,s.synced]))];
+
+  const h2=[row(['RecordID_Ref','Cedula_Productor','Nombre_Productor','Nombre_Familiar','Genero','Anio_Nac','Relacion','En_Escuela','Educacion','Trabaja_Finca']),...data.flatMap(s=>(s.family||[]).map(f=>row([s.id,s.producer?.ci||'',s.producer?.name||'',f.name,f.gender,f.birthYear,f.relation,f.inSchool,f.education,f.workInFarm])))];
+
+  const h3=[row(['RecordID_Ref','Cedula_Productor','Nombre_Productor','Nombre_Trabajador','Genero','Anio_Nac','Educacion','Tipo_Jornada']),...data.flatMap(s=>(s.labor||[]).map(l=>row([s.id,s.producer?.ci||'',s.producer?.name||'',l.name,l.gender,l.birthYear,l.education,l.workStatus])))];
+
+  const xml=`<?xml version="1.0" encoding="UTF-8"?><?mso-application progid="Excel.Sheet"?><Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">${sheet('Productores',h1)}${sheet('Familia',h2)}${sheet('Trabajadores',h3)}</Workbook>`;
+
+  const b=new Blob([xml],{type:'application/vnd.ms-excel;charset=utf-8'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(b);
+  a.download='EUDR_Megablessing_'+new Date().toISOString().slice(0,10)+'.xls';a.click();
+  toast('✓ Excel descargado','ok');
 }
 
 // ── Toast ──
@@ -697,11 +671,12 @@ let tt;
 function toast(m,t=''){
   const el=document.getElementById('toast');
   el.textContent=m;el.className='show '+(t==='ok'?'ok':t==='er'?'er':'');
-  clearTimeout(tt);tt=setTimeout(()=>el.classList.remove('show'),3200);
+  clearTimeout(tt);tt=setTimeout(()=>el.classList.remove('show'),3500);
 }
 
 // ── Init ──
-idb().then(()=>{
+idb().then(async ()=>{
+  await restoreFromBackup();
   uprog();ucon();
   ['fc','gc','phc'].forEach(id=>document.getElementById(id).style.display='none');
 });
