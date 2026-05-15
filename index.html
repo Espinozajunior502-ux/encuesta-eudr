@@ -742,6 +742,9 @@ async function expExcel(){
 let tt;function toast(m,t=''){const el=document.getElementById('toast');el.textContent=m;el.className='show '+(t==='ok'?'ok':t==='er'?'er':'');clearTimeout(tt);tt=setTimeout(()=>el.classList.remove('show'),3500);}
 
 // ── Init ──
+if('serviceWorker' in navigator){
+  navigator.serviceWorker.register('sw.js');
+}
 idb().then(async()=>{
   await restoreFromBackup();
   uprog();ucon();
