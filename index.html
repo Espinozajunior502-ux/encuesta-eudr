@@ -49,7 +49,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,san
 /* SPLASH */
 #splash{position:fixed;inset:0;z-index:9999;background:#000;display:flex;align-items:center;justify-content:center;transition:opacity .6s ease;}
 #splash.hide{opacity:0;pointer-events:none;}
-#splash video{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;object-position:center;}
+#splash video{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:contain;object-position:center;background:#000;}
 
 /* PIN MODAL */
 #pin-modal{position:fixed;inset:0;z-index:8500;background:rgba(0,0,0,.85);display:none;align-items:center;justify-content:center;padding:20px;}
@@ -1010,8 +1010,19 @@ async function uprog(){
 function esc(val){if(val==null||val===undefined)return '';return String(val).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&apos;').replace(/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/g,'');}
 function g(obj,...keys){let vl=obj;for(const k of keys){vl=vl?.[k];}return vl??'';}
 function xmlCell(v){return `<Cell><Data ss:Type="String">${esc(v)}</Data></Cell>`;}
-function xmlRow(cells){return '<Row>'+cells.map(xmlCell).join('')+'</Row>';}
-function xmlSheet(name,rows){return `<Worksheet ss:Name="${esc(name)}"><Table>${rows.join('')}</Table></Worksheet>`;}
+function xmlRow(cells,isHeader){
+  if(isHeader){
+    return '<Row ss:StyleID="Header">'+cells.map(c=>'<Cell ss:StyleID="Header"><Data ss:Type="String">'+esc(c)+'</Data></Cell>').join('')+'</Row>';
+  }
+  return '<Row>'+cells.map(xmlCell).join('')+'</Row>';
+}
+function xmlSheet(name,rows){return '<Worksheet ss:Name="'+esc(name)+'">'+
+'<WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">'+
+'<Selected/><FreezePanes/><FrozenNoSplit/>'+
+'<SplitHorizontal>1</SplitHorizontal><TopRowBottomPane>1</TopRowBottomPane>'+
+'</WorksheetOptions>'+
+'<Table>'+rows.join('')+'</Table>'+
+'</Worksheet>';}
 
 function downloadFile(content,filename,mime){
   const b=new Blob([content],{type:mime});
@@ -1045,10 +1056,33 @@ async function expExcel(){
     if(!data.length){toast('No hay datos para exportar','er');return;}
     toast('Generando Excel...','');
     const HEADERS=['RecordID','Encuestador','Nombre','Genero','Fecha_Nac','Tipo_ID','Cedula','Provincia','Canton','Ciudad','Direccion','Smartphone','Tipo_Tel','Celular','Tipo_Agricultor','Estado_Civil','Educacion','Vive_Finca','N_Parcelas','Hectareas','Variedad_Cacao','Edad_Cultivo','Fecha_Visita','Observaciones','Grupo','Cooperativa','Nombre_Grupo','Nombre_Coop','UTZ','Otro_Prog','Inicio_UTZ','GPS_Lat','GPS_Lng','GPS_Precision','Fecha_Registro'];
-    const h1=[xmlRow(HEADERS),...data.map(s=>xmlRow([g(s,'id'),g(s,'encuestador'),g(s,'producer','name'),g(s,'producer','gender'),g(s,'producer','birthdate'),g(s,'producer','idType'),g(s,'producer','ci'),g(s,'producer','province'),g(s,'producer','canton'),g(s,'producer','city'),g(s,'producer','address'),g(s,'producer','smartphone'),g(s,'producer','phoneType'),g(s,'producer','phone'),g(s,'producer','farmerType'),g(s,'producer','maritalStatus'),g(s,'producer','education'),g(s,'producer','liveOnFarm'),g(s,'producer','nCocoaPlots'),g(s,'producer','hectareas'),g(s,'producer','variedadCacao'),g(s,'producer','edadCultivo'),g(s,'producer','visitDate'),g(s,'producer','observations'),g(s,'producer','farmerGroup'),g(s,'producer','farmerCoop'),g(s,'producer','groupName'),g(s,'producer','coopName'),g(s,'producer','utz'),g(s,'producer','otherProg'),g(s,'producer','startUtz'),g(s,'gps','lat'),g(s,'gps','lng'),g(s,'gps','acc'),g(s,'createdAt')]))];
-    const h2=[xmlRow(['RecordID_Ref','Cedula_Productor','Nombre_Productor','Nombre_Familiar','Genero','Anio_Nac','Relacion','En_Escuela','Educacion','Trabaja_Finca']),...data.flatMap(s=>(s.family||[]).map(f=>xmlRow([g(s,'id'),g(s,'producer','ci'),g(s,'producer','name'),g(f,'name'),g(f,'gender'),g(f,'birthYear'),g(f,'relation'),g(f,'inSchool'),g(f,'education'),g(f,'workInFarm')])))];
-    const h3=[xmlRow(['RecordID_Ref','Cedula_Productor','Nombre_Productor','Nombre_Trabajador','Genero','Anio_Nac','Educacion','Tipo_Jornada']),...data.flatMap(s=>(s.labor||[]).map(l=>xmlRow([g(s,'id'),g(s,'producer','ci'),g(s,'producer','name'),g(l,'name'),g(l,'gender'),g(l,'birthYear'),g(l,'education'),g(l,'workStatus')])))];
-    const xml='<?xml version="1.0" encoding="UTF-8"?><?mso-application progid="Excel.Sheet"?><Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">'+xmlSheet('Productores',h1)+xmlSheet('Familia',h2)+xmlSheet('Trabajadores',h3)+'</Workbook>';
+    const h1=[xmlRow(HEADERS,true),...data.map(s=>xmlRow([g(s,'id'),g(s,'encuestador'),g(s,'producer','name'),g(s,'producer','gender'),g(s,'producer','birthdate'),g(s,'producer','idType'),g(s,'producer','ci'),g(s,'producer','province'),g(s,'producer','canton'),g(s,'producer','city'),g(s,'producer','address'),g(s,'producer','smartphone'),g(s,'producer','phoneType'),g(s,'producer','phone'),g(s,'producer','farmerType'),g(s,'producer','maritalStatus'),g(s,'producer','education'),g(s,'producer','liveOnFarm'),g(s,'producer','nCocoaPlots'),g(s,'producer','hectareas'),g(s,'producer','variedadCacao'),g(s,'producer','edadCultivo'),g(s,'producer','visitDate'),g(s,'producer','observations'),g(s,'producer','farmerGroup'),g(s,'producer','farmerCoop'),g(s,'producer','groupName'),g(s,'producer','coopName'),g(s,'producer','utz'),g(s,'producer','otherProg'),g(s,'producer','startUtz'),g(s,'gps','lat'),g(s,'gps','lng'),g(s,'gps','acc'),g(s,'createdAt')]))];
+    const h2=[xmlRow(['RecordID_Ref','Cedula_Productor','Nombre_Productor','Nombre_Familiar','Genero','Anio_Nac','Relacion','En_Escuela','Educacion','Trabaja_Finca'],true),...data.flatMap(s=>(s.family||[]).map(f=>xmlRow([g(s,'id'),g(s,'producer','ci'),g(s,'producer','name'),g(f,'name'),g(f,'gender'),g(f,'birthYear'),g(f,'relation'),g(f,'inSchool'),g(f,'education'),g(f,'workInFarm')])))];
+    const h3=[xmlRow(['RecordID_Ref','Cedula_Productor','Nombre_Productor','Nombre_Trabajador','Genero','Anio_Nac','Educacion','Tipo_Jornada'],true),...data.flatMap(s=>(s.labor||[]).map(l=>xmlRow([g(s,'id'),g(s,'producer','ci'),g(s,'producer','name'),g(l,'name'),g(l,'gender'),g(l,'birthYear'),g(l,'education'),g(l,'workStatus')])))];
+    const xml='<?xml version="1.0" encoding="UTF-8"?>'+
+'<?mso-application progid="Excel.Sheet"?>'+
+'<Workbook'+
+' xmlns="urn:schemas-microsoft-com:office:spreadsheet"'+
+' xmlns:o="urn:schemas-microsoft-com:office:office"'+
+' xmlns:x="urn:schemas-microsoft-com:office:excel"'+
+' xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"'+
+' xmlns:html="http://www.w3.org/TR/REC-html40">'+
+'<DocumentProperties xmlns="urn:schemas-microsoft-com:office:office">'+
+'<Title>EUDR Megablessing</Title>'+
+'<Author>Megablessing</Author>'+
+'<Created>'+new Date().toISOString()+'</Created>'+
+'</DocumentProperties>'+
+'<ExcelWorkbook xmlns="urn:schemas-microsoft-com:office:excel">'+
+'<WindowHeight>10000</WindowHeight>'+
+'<WindowWidth>20000</WindowWidth>'+
+'<ActiveSheet>0</ActiveSheet>'+
+'</ExcelWorkbook>'+
+'<Styles>'+
+'<Style ss:ID="Default" ss:Name="Normal"><Alignment ss:Vertical="Bottom"/></Style>'+
+'<Style ss:ID="Header"><Font ss:Bold="1"/><Interior ss:Color="#E40521" ss:Pattern="Solid"/><Font ss:Color="#FFFFFF" ss:Bold="1"/></Style>'+
+'</Styles>'+
+xmlSheet('Productores',h1)+xmlSheet('Familia',h2)+xmlSheet('Trabajadores',h3)+
+'</Workbook>';
     downloadFile(xml,'EUDR_Megablessing_'+new Date().toISOString().slice(0,10)+'.xls','application/vnd.ms-excel;charset=utf-8');
     toast('✓ Excel descargado ('+data.length+' registros)','ok');
   }catch(err){toast('Error Excel: '+err.message,'er');console.error(err);}
