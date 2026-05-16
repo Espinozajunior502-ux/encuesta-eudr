@@ -222,6 +222,19 @@ textarea{resize:vertical;min-height:64px;}
 .val-summary ul{font-size:12px;color:var(--red-dark);padding-left:16px;}
 .val-summary li{margin-bottom:3px;}
 
+/* REVIEW MODAL */
+#review-modal{position:fixed;inset:0;z-index:7000;background:rgba(0,0,0,.7);display:none;align-items:flex-end;justify-content:center;}
+#review-modal.open{display:flex;}
+.review-box{background:#fff;border-radius:20px 20px 0 0;width:100%;padding:20px 16px 36px;max-height:85vh;overflow-y:auto;}
+.review-box h3{font-size:16px;font-weight:700;margin-bottom:14px;}
+.review-row{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--gray5);font-size:13px;}
+.review-row:last-child{border-bottom:none;}
+.review-lbl{color:var(--gray3);font-size:12px;}
+.review-val{font-weight:600;text-align:right;max-width:60%;}
+.review-actions{display:flex;gap:10px;margin-top:16px;}
+.review-actions button{flex:1;padding:13px;font-family:inherit;font-size:14px;font-weight:700;border:none;border-radius:9px;cursor:pointer;}
+.rbtn-cancel{background:var(--gray5);color:var(--gray2);}
+.rbtn-save{background:var(--red);color:#fff;}
 /* TOAST */
 #toast{position:fixed;bottom:105px;left:50%;transform:translateX(-50%) translateY(14px);background:var(--black2);color:#fff;padding:9px 18px;border-radius:999px;font-size:12px;font-weight:600;opacity:0;transition:all .25s;z-index:10000;white-space:nowrap;pointer-events:none;max-width:90vw;text-align:center;}
 #toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
@@ -292,6 +305,18 @@ textarea{resize:vertical;min-height:64px;}
 </div>
 
 <!-- APP -->
+<!-- REVIEW MODAL -->
+<div id="review-modal">
+  <div class="review-box">
+    <h3>📋 Confirmar antes de guardar</h3>
+    <div id="review-content"></div>
+    <div class="review-actions">
+      <button class="rbtn-cancel" onclick="closeReview()">✏️ Corregir</button>
+      <button class="rbtn-save" onclick="confirmSave()">✅ Guardar</button>
+    </div>
+  </div>
+</div>
+
 <div id="app">
 
 <header>
@@ -446,7 +471,7 @@ textarea{resize:vertical;min-height:64px;}
   </div>
 
   <div class="card" id="phc" style="display:none">
-    <div class="ch"><div class="cico" style="background:#f0f0f0">📷</div><h2>Fotos Evidencia</h2></div>
+    <div class="ch"><div class="cico" style="background:#f0f0f0">📷</div><h2>Foto del Productor</h2></div>
     <div class="cb">
       <div class="field">
         <label>Foto del productor</label>
@@ -454,12 +479,7 @@ textarea{resize:vertical;min-height:64px;}
         <button class="btn bout" onclick="document.getElementById('fph2').click()">📷 Foto del productor</button>
         <img id="phimg1" class="phimg">
       </div>
-      <div class="field" style="margin-top:10px">
-        <label>Foto del predio</label>
-        <input type="file" id="fph3" accept="image/*" capture="environment" style="display:none" onchange="prvph('fph3','phimg2','photo2')">
-        <button class="btn bout" onclick="document.getElementById('fph3').click()">📷 Foto del predio</button>
-        <img id="phimg2" class="phimg">
-      </div>
+
     </div>
   </div>
 </div>
@@ -500,7 +520,7 @@ textarea{resize:vertical;min-height:64px;}
       </div>
       <div style="display:flex;gap:8px;margin-top:12px">
         <button class="btn bsec" style="flex:1" onclick="expJSON()">⬇️ JSON</button>
-        <button class="btn bpri" style="flex:1" onclick="expExcel()">⬇️ Excel</button>
+        <button class="btn bpri" style="flex:1" onclick="expExcel()">⬇️ XML/Excel</button>
       </div>
     </div>
   </div>
@@ -512,7 +532,7 @@ textarea{resize:vertical;min-height:64px;}
 
 <div class="bnav">
   <button class="btn bout" onclick="rst()" style="flex:.45;font-size:13px;padding:12px 8px">🗑️ Limpiar</button>
-  <button class="btn bpri" onclick="save()">💾 Guardar encuesta</button>
+  <button class="btn bpri" onclick="reviewAndSave()">💾 Guardar encuesta</button>
 </div>
 <div id="toast"></div>
 </div><!-- /app -->
@@ -538,7 +558,7 @@ function esAutorizado(nombre){
 }
 let db,curP=null,curGPS=null,frows=[],lrows=[],fc=0,lc=0,editingId=null;
 let encuestador='',photos={photo1:'',photo2:''};
-let autosaveTimer=null;
+let autosaveTimer=null,pendingSave=null;
 const DB='eudr_mb_v4',ST='surveys';
 
 // ── SERVICE WORKER ──
@@ -742,7 +762,7 @@ function loadDraft(){
     Object.entries(f).forEach(([id,val])=>{const el=document.getElementById(id);if(el)el.value=val||'';});
     // Restore photos
     if(photos.photo1){const i=document.getElementById('phimg1');i.src=photos.photo1;i.style.display='block';}
-    if(photos.photo2){const i=document.getElementById('phimg2');i.src=photos.photo2;i.style.display='block';}
+    
     // Restore family/labor
     frows=(draft.family||[]).map((f,i)=>({id:i+1,...f}));fc=frows.length;rft();
     lrows=(draft.labor||[]).map((l,i)=>({id:i+1,...l}));lc=lrows.length;rlt();
@@ -771,6 +791,11 @@ async function restoreFromBackup(){const data=await dall();if(data.length>0)retu
 
 // ── Tabs ──
 function sw(i){document.querySelectorAll('.tb').forEach((b,x)=>b.classList.toggle('act',x===i));document.querySelectorAll('.panel').forEach((p,x)=>p.classList.toggle('act',x===i));acd.classList.remove('open');if(i===3){lrec();checkStorage();}}
+
+// ── Save on hide ──
+document.addEventListener('visibilitychange',()=>{if(document.hidden&&curP)saveDraft();});
+window.addEventListener('beforeunload',()=>{if(curP)saveDraft();});
+window.addEventListener('pagehide',()=>{if(curP)saveDraft();});
 
 // ── Connection ──
 function ucon(){const on=navigator.onLine;const sb=document.getElementById('sbadge');if(on){sb.textContent='🟢 Online';sb.className='on';}else{sb.textContent='⚫ Sin conexión';sb.className='';}}
@@ -826,7 +851,7 @@ function selp(p,isDup){
 }
 function addnew(n){const p={id:'',name:n,gender:'',birthdate:'',idType:'National ID card',ci:'',province:'Manabi',canton:'EL CARMEN',city:'EL CARMEN',address:'',smartphone:'Yes',phoneType:'Smartphone (Android/iPhone)',phoneCode:'593',phone:'',farmerType:'Normal',marital:'',education:'',liveOnFarm:'',nCocoaPlots:'1',hectareas:'',variedadCacao:'',edadCultivo:'',visitDate:'',observations:'',farmerGroup:'',farmerCoop:'',groupName:'',coopName:'',utz:'',otherProg:'',startUtz:'',isNew:true};curP=p;acd.classList.remove('open');si.value='';document.getElementById('spn').textContent=n+' (Nuevo)';document.getElementById('spci').textContent='CI: pendiente';document.getElementById('selp').classList.add('vis');document.getElementById('ntag').textContent='· Nuevo';popf(p);showCards();scheduleDraft();}
 function showCards(){['fc','gc','phc'].forEach(id=>document.getElementById(id).style.display='');}
-function clrp(){curP=null;curGPS=null;editingId=null;photos={photo1:'',photo2:''};document.getElementById('selp').classList.remove('vis');['fc','gc','phc'].forEach(id=>document.getElementById(id).style.display='none');document.getElementById('gcoords').textContent='Sin coordenadas';document.getElementById('gstat').textContent='Presione para obtener';['phimg1','phimg2'].forEach(id=>{const el=document.getElementById(id);if(el){el.style.display='none';el.src='';}});['fph2','fph3'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});document.getElementById('glat').value='';document.getElementById('glng').value='';document.getElementById('val-box').classList.remove('show');document.getElementById('sq').value='';frows=[];lrows=[];fc=0;lc=0;rft();rlt();clearTimeout(autosaveTimer);}
+function clrp(){curP=null;curGPS=null;editingId=null;photos={photo1:'',photo2:''};document.getElementById('selp').classList.remove('vis');['fc','gc','phc'].forEach(id=>document.getElementById(id).style.display='none');document.getElementById('gcoords').textContent='Sin coordenadas';document.getElementById('gstat').textContent='Presione para obtener';const pi2=document.getElementById('phimg1');if(pi2){pi2.style.display='none';pi2.src='';}const ph=document.getElementById('fph2');if(ph)ph.value='';document.getElementById('glat').value='';document.getElementById('glng').value='';document.getElementById('val-box').classList.remove('show');document.getElementById('sq').value='';frows=[];lrows=[];fc=0;lc=0;rft();rlt();clearTimeout(autosaveTimer);}
 function popf(p){const s=(id,val)=>{const e=document.getElementById(id);if(e)e.value=val||'';};s('fn',p.name);s('fg',p.gender);s('fit',p.idType||'National ID card');s('fci',p.ci);s('fbd',p.birthdate);s('fpv',p.province||'Manabi');s('fct',p.canton||'EL CARMEN');s('fcy',p.city||'EL CARMEN');s('fad',p.address);s('fsp',p.smartphone||'Yes');s('fpt',p.phoneType||'Smartphone (Android/iPhone)');s('fph',p.phone);s('fmc',p.marital);s('fed',p.education);s('fft',p.farmerType||'Normal');s('flf',p.liveOnFarm);s('fnp',p.nCocoaPlots||'1');s('fha',p.hectareas||'');s('fvar',p.variedadCacao||'');s('fage',p.edadCultivo||'');s('fvisit',p.visitDate||new Date().toISOString().slice(0,10));s('fobs',p.observations||'');s('ffg',p.farmerGroup);s('ffc',p.farmerCoop);s('fgni',p.groupName);s('fcni',p.coopName);s('futz',p.utz);s('fop',p.otherProg);s('fsu',p.startUtz);tgn();tcn();valCI();}
 function tgn(){document.getElementById('fgn').style.display=document.getElementById('ffg').value==='Yes'?'':'none';}
 function tcn(){document.getElementById('fcn').style.display=document.getElementById('ffc').value==='Yes'?'':'none';}
@@ -893,6 +918,31 @@ function validateForm(){
   vb.classList.remove('show');return true;
 }
 
+// ── Review & Save ──
+function reviewAndSave(){
+  if(!validateForm())return;
+  const fam=cfd(),lab=cld();
+  const rows=[
+    ['Productor',v('fn')],['Cédula',v('fci')],
+    ['Sexo',v('fg')==='Male'?'Masculino':'Femenino'],
+    ['Fecha visita',v('fvisit')],
+    ['Variedad cacao',v('fvar')||'—'],
+    ['Hectáreas',v('fha')||'—'],
+    ['GPS',curGPS?curGPS.lat.toFixed(4)+', '+curGPS.lng.toFixed(4):'Sin GPS'],
+    ['Foto',photoB64?'✓ Con foto':'Sin foto'],
+    ['Miembros hogar',fam.length+' persona(s)'],
+    ['Trabajadores',lab.length+' persona(s)'],
+    ['Observaciones',v('fobs')||'—'],
+    ['Encuestador',encuestador],
+  ];
+  document.getElementById('review-content').innerHTML=rows.map(([l,val])=>
+    '<div class="review-row"><span class="review-lbl">'+l+'</span><span class="review-val">'+val+'</span></div>'
+  ).join('');
+  document.getElementById('review-modal').classList.add('open');
+  pendingSave={family:fam,labor:lab};
+}
+function closeReview(){document.getElementById('review-modal').classList.remove('open');}
+
 // ── Save ──
 async function save(){
   if(!validateForm())return;
@@ -902,7 +952,7 @@ async function save(){
     const dup=await isDuplicate(ci);
     if(dup){if(!confirm('Ya existe una encuesta con esta cédula ('+ci+'). ¿Guardar de todas formas?'))return;}
   }
-  const id=editingId||Date.now();
+  const id=editingId||(Date.now()*1000+Math.floor(Math.random()*1000));
   let origCreatedAt=new Date().toISOString();
   if(editingId){const all=await dall();origCreatedAt=(all.find(x=>x.id===editingId)?.createdAt)||origCreatedAt;}
   const s={
@@ -920,6 +970,7 @@ async function save(){
       groupName:v('fgni'),coopName:v('fcni'),utz:v('futz'),otherProg:v('fop'),
       startUtz:v('fsu'),isNew:curP.isNew||false
     },
+    changelog:editingId?[{at:new Date().toISOString(),by:encuestador,action:'edit'}]:[],
     family:cfd(),labor:cld()
   };
   try{
@@ -933,6 +984,10 @@ async function save(){
   }catch(e){toast('Error al guardar: '+e.message,'er');}
 }
 
+async function confirmSave(){
+  document.getElementById('review-modal').classList.remove('open');
+  await save();
+}
 function suggestNext(lastCI){
   const idx=P.findIndex(p=>p.ci===lastCI);
   if(idx>=0&&idx<P.length-1){const next=P[idx+1];setTimeout(()=>toast('Siguiente: '+next.name,'warn'),3600);}
@@ -952,7 +1007,7 @@ async function editRecord(id){
   if(s.gps){document.getElementById('gcoords').textContent=s.gps.lat.toFixed(6)+', '+s.gps.lng.toFixed(6);document.getElementById('gstat').textContent='Guardado previamente';}
   // Restore photos
   if(photos.photo1){const i=document.getElementById('phimg1');i.src=photos.photo1;i.style.display='block';}
-  if(photos.photo2){const i=document.getElementById('phimg2');i.src=photos.photo2;i.style.display='block';}
+  
   frows=(s.family||[]).map((f,i)=>({id:i+1,...f}));fc=frows.length;rft();
   lrows=(s.labor||[]).map((l,i)=>({id:i+1,...l}));lc=lrows.length;rlt();
   sw(0);window.scrollTo({top:0,behavior:'smooth'});
@@ -991,6 +1046,7 @@ async function lrec(){
       </div>
       <div class="scard-actions">
         <button class="bedit" onclick="editRecord(${s.id})">✏️ Editar</button>
+        <button style="padding:8px 10px;background:var(--green-light);color:var(--green);border:none;border-radius:7px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;" onclick="expOne(${s.id})">⬇️</button>
         <button class="bdel" onclick="deleteRecord(${s.id},'${(s.producer?.name||'').replace(/'/g,"\'")}')">🗑️</button>
       </div>
     </div>`).join('');
@@ -1033,6 +1089,18 @@ function downloadFile(content,filename,mime){
   setTimeout(()=>{URL.revokeObjectURL(url);document.body.removeChild(a);},400);
 }
 
+// ── Export individual ──
+async function expOne(id){
+  try{
+    const data=await dall();
+    const s=data.find(x=>x.id===id);if(!s)return;
+    const out={exported_at:new Date().toISOString(),record:s};
+    const fname='EUDR_'+(s.producer?.name||id).replace(/[^a-zA-Z0-9]/g,'_')+'_'+new Date().toISOString().slice(0,10)+'.json';
+    downloadFile(JSON.stringify(out,null,2),fname,'application/json');
+    toast('✓ Registro exportado','ok');
+  }catch(e){toast('Error exportando','er');}
+}
+
 // ── Export JSON ──
 async function expJSON(){
   try{
@@ -1054,7 +1122,7 @@ async function expExcel(){
   try{
     const data=await dall();
     if(!data.length){toast('No hay datos para exportar','er');return;}
-    toast('Generando Excel...','');
+    toast('Generando XML...','');
     const HEADERS=['RecordID','Encuestador','Nombre','Genero','Fecha_Nac','Tipo_ID','Cedula','Provincia','Canton','Ciudad','Direccion','Smartphone','Tipo_Tel','Celular','Tipo_Agricultor','Estado_Civil','Educacion','Vive_Finca','N_Parcelas','Hectareas','Variedad_Cacao','Edad_Cultivo','Fecha_Visita','Observaciones','Grupo','Cooperativa','Nombre_Grupo','Nombre_Coop','UTZ','Otro_Prog','Inicio_UTZ','GPS_Lat','GPS_Lng','GPS_Precision','Fecha_Registro'];
     const h1=[xmlRow(HEADERS,true),...data.map(s=>xmlRow([g(s,'id'),g(s,'encuestador'),g(s,'producer','name'),g(s,'producer','gender'),g(s,'producer','birthdate'),g(s,'producer','idType'),g(s,'producer','ci'),g(s,'producer','province'),g(s,'producer','canton'),g(s,'producer','city'),g(s,'producer','address'),g(s,'producer','smartphone'),g(s,'producer','phoneType'),g(s,'producer','phone'),g(s,'producer','farmerType'),g(s,'producer','maritalStatus'),g(s,'producer','education'),g(s,'producer','liveOnFarm'),g(s,'producer','nCocoaPlots'),g(s,'producer','hectareas'),g(s,'producer','variedadCacao'),g(s,'producer','edadCultivo'),g(s,'producer','visitDate'),g(s,'producer','observations'),g(s,'producer','farmerGroup'),g(s,'producer','farmerCoop'),g(s,'producer','groupName'),g(s,'producer','coopName'),g(s,'producer','utz'),g(s,'producer','otherProg'),g(s,'producer','startUtz'),g(s,'gps','lat'),g(s,'gps','lng'),g(s,'gps','acc'),g(s,'createdAt')]))];
     const h2=[xmlRow(['RecordID_Ref','Cedula_Productor','Nombre_Productor','Nombre_Familiar','Genero','Anio_Nac','Relacion','En_Escuela','Educacion','Trabaja_Finca'],true),...data.flatMap(s=>(s.family||[]).map(f=>xmlRow([g(s,'id'),g(s,'producer','ci'),g(s,'producer','name'),g(f,'name'),g(f,'gender'),g(f,'birthYear'),g(f,'relation'),g(f,'inSchool'),g(f,'education'),g(f,'workInFarm')])))];
@@ -1079,12 +1147,15 @@ async function expExcel(){
 '</ExcelWorkbook>'+
 '<Styles>'+
 '<Style ss:ID="Default" ss:Name="Normal"><Alignment ss:Vertical="Bottom"/></Style>'+
-'<Style ss:ID="Header"><Font ss:Bold="1"/><Interior ss:Color="#E40521" ss:Pattern="Solid"/><Font ss:Color="#FFFFFF" ss:Bold="1"/></Style>'+
+'<Style ss:ID="Header"><Font ss:Bold="1"/><Interior ss:Color="#E8E8E8" ss:Pattern="Solid"/></Style>'+
 '</Styles>'+
 xmlSheet('Productores',h1)+xmlSheet('Familia',h2)+xmlSheet('Trabajadores',h3)+
 '</Workbook>';
-    downloadFile(xml,'EUDR_Megablessing_'+new Date().toISOString().slice(0,10)+'.xls','application/vnd.ms-excel;charset=utf-8');
-    toast('✓ Excel descargado ('+data.length+' registros)','ok');
+    downloadFile(xml,'EUDR_Megablessing_'+new Date().toISOString().slice(0,10)+'.xml','application/xml;charset=utf-8');
+    const expectedRows=data.length+1;
+    const actualRows=(xml.match(/<Row/g)||[]).length/3;// 3 sheets
+    console.log('[Excel] Integridad: esperadas',expectedRows,'por hoja, total filas XML:',(xml.match(/<Row/g)||[]).length);
+    toast('✓ XML descargado ('+data.length+' registros)','ok');
   }catch(err){toast('Error Excel: '+err.message,'er');console.error(err);}
 }
 
