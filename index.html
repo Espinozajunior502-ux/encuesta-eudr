@@ -418,18 +418,30 @@ textarea{resize:vertical;min-height:64px;}
       </div>
       <div class="row2">
         <div class="field"><label>N° parcelas cacao</label><input type="number" id="fnp" value="1" min="0"></div>
-        <div class="field"><label>Hectáreas totales</label><input type="number" id="fha" placeholder="ej: 2.5" step="0.1" min="0"></div>
-      </div>
-      <div class="row2">
         <div class="field"><label>Variedad del cacao</label>
-          <select id="fvar">
+          <select id="fvar" onchange="toggleHa()">
             <option value="">Seleccionar</option>
             <option value="Cacao Nacional (Fino de Aroma)">Cacao Nacional (Fino de Aroma)</option>
             <option value="Cacao CCN-51">Cacao CCN-51</option>
             <option value="Ambos (Nacional + CCN-51)">Ambos (Nacional + CCN-51)</option>
           </select>
         </div>
-        <div class="field"><label>Edad cultivo (años)</label><input type="number" id="fage" placeholder="ej: 5" min="0" max="100"></div>
+      </div>
+      <div id="ha-single" style="display:none">
+        <div class="row2">
+          <div class="field"><label id="ha-single-label">Hectáreas</label><input type="number" id="fha" placeholder="ej: 2.5" step="0.1" min="0"></div>
+          <div class="field"><label id="age-single-label">Edad cultivo (años)</label><input type="number" id="fage" placeholder="ej: 5" min="0" max="100"></div>
+        </div>
+      </div>
+      <div id="ha-ambos" style="display:none">
+        <div class="row2">
+          <div class="field"><label>Ha. Nacional (Fino de Aroma)</label><input type="number" id="fha-nac" placeholder="ej: 1.5" step="0.1" min="0"></div>
+          <div class="field"><label>Edad Nacional (años)</label><input type="number" id="fage-nac" placeholder="ej: 8" min="0" max="100"></div>
+        </div>
+        <div class="row2">
+          <div class="field"><label>Ha. CCN-51</label><input type="number" id="fha-ccn" placeholder="ej: 1.0" step="0.1" min="0"></div>
+          <div class="field"><label>Edad CCN-51 (años)</label><input type="number" id="fage-ccn" placeholder="ej: 3" min="0" max="100"></div>
+        </div>
       </div>
       <div class="field"><label>Fecha de la visita <span class="rq">*</span></label><input type="date" id="fvisit"></div>
       <div class="field"><label>Observaciones / Notas</label><textarea id="fobs" rows="2" placeholder="Cualquier información adicional..."></textarea></div>
@@ -916,8 +928,8 @@ function selp(p,isDup){
 }
 function addnew(n){const p={id:'',name:n,gender:'',birthdate:'',idType:'National ID card',ci:'',province:'Manabi',canton:'EL CARMEN',city:'EL CARMEN',address:'',smartphone:'Yes',phoneType:'Smartphone (Android/iPhone)',phoneCode:'593',phone:'',farmerType:'Normal',marital:'',education:'',liveOnFarm:'',nCocoaPlots:'1',hectareas:'',variedadCacao:'',edadCultivo:'',visitDate:'',observations:'',farmerGroup:'',farmerCoop:'',groupName:'',coopName:'',utz:'',otherProg:'',startUtz:'',isNew:true};curP=p;acd.classList.remove('open');si.value='';document.getElementById('spn').textContent=n+' (Nuevo)';document.getElementById('spci').textContent='CI: pendiente';document.getElementById('selp').classList.add('vis');document.getElementById('ntag').textContent='· Nuevo';popf(p);showCards();scheduleDraft();}
 function showCards(){['fc','gc','phc'].forEach(id=>document.getElementById(id).style.display='');}
-function clrp(){curP=null;curGPS=null;editingId=null;photoB64='';document.getElementById('selp').classList.remove('vis');['fc','gc','phc'].forEach(id=>document.getElementById(id).style.display='none');document.getElementById('gcoords').textContent='Sin coordenadas';document.getElementById('gstat').textContent='Presione para obtener';const pi2=document.getElementById('phimg1');if(pi2){pi2.style.display='none';pi2.src='';}const ph=document.getElementById('fph2');if(ph)ph.value='';document.getElementById('glat').value='';document.getElementById('glng').value='';document.getElementById('val-box').classList.remove('show');document.getElementById('sq').value='';frows=[];lrows=[];fc=0;lc=0;rft();rlt();clearTimeout(autosaveTimer);}
-function popf(p){const s=(id,val)=>{const e=document.getElementById(id);if(e)e.value=val||'';};s('fn',p.name);s('fg',p.gender);s('fit',p.idType||'National ID card');s('fci',p.ci);s('fbd',p.birthdate);s('fpv',p.province||'Manabi');s('fct',p.canton||'EL CARMEN');s('fcy',p.city||'EL CARMEN');s('fad',p.address);s('fsp',p.smartphone||'Yes');s('fpt',p.phoneType||'Smartphone (Android/iPhone)');s('fph',p.phone);s('fmc',p.marital);s('fed',p.education);s('fft',p.farmerType||'Normal');s('flf',p.liveOnFarm);s('fnp',p.nCocoaPlots||'1');s('fha',p.hectareas||'');s('fvar',p.variedadCacao||'');s('fage',p.edadCultivo||'');s('fvisit',p.visitDate||new Date().toISOString().slice(0,10));s('fobs',p.observations||'');s('ffg',p.farmerGroup);s('ffc',p.farmerCoop);s('fgni',p.groupName);s('fcni',p.coopName);s('futz',p.utz);s('fop',p.otherProg);s('fsu',p.startUtz);tgn();tcn();valCI();}
+function clrp(){curP=null;curGPS=null;editingId=null;photoB64='';document.getElementById('selp').classList.remove('vis');['fc','gc','phc'].forEach(id=>document.getElementById(id).style.display='none');document.getElementById('gcoords').textContent='Sin coordenadas';document.getElementById('gstat').textContent='Presione para obtener';const pi2=document.getElementById('phimg1');if(pi2){pi2.style.display='none';pi2.src='';}const ph=document.getElementById('fph2');if(ph)ph.value='';document.getElementById('glat').value='';document.getElementById('glng').value='';document.getElementById('val-box').classList.remove('show');document.getElementById('sq').value='';['fha-nac','fage-nac','fha-ccn','fage-ccn'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});document.getElementById('ha-single').style.display='none';document.getElementById('ha-ambos').style.display='none';frows=[];lrows=[];fc=0;lc=0;rft();rlt();clearTimeout(autosaveTimer);}
+function popf(p){const s=(id,val)=>{const e=document.getElementById(id);if(e)e.value=val||'';};s('fn',p.name);s('fg',p.gender);s('fit',p.idType||'National ID card');s('fci',p.ci);s('fbd',p.birthdate);s('fpv',p.province||'Manabi');s('fct',p.canton||'EL CARMEN');s('fcy',p.city||'EL CARMEN');s('fad',p.address);s('fsp',p.smartphone||'Yes');s('fpt',p.phoneType||'Smartphone (Android/iPhone)');s('fph',p.phone);s('fmc',p.marital);s('fed',p.education);s('fft',p.farmerType||'Normal');s('flf',p.liveOnFarm);s('fnp',p.nCocoaPlots||'1');s('fha',p.hectareas||'');s('fvar',p.variedadCacao||'');s('fage',p.edadCultivo||'');s('fha-nac',p.haNacional||'');s('fage-nac',p.edadNacional||'');s('fha-ccn',p.haCcn||'');s('fage-ccn',p.edadCcn||'');toggleHa();s('fvisit',p.visitDate||new Date().toISOString().slice(0,10));s('fobs',p.observations||'');s('ffg',p.farmerGroup);s('ffc',p.farmerCoop);s('fgni',p.groupName);s('fcni',p.coopName);s('futz',p.utz);s('fop',p.otherProg);s('fsu',p.startUtz);tgn();tcn();valCI();}
 function tgn(){document.getElementById('fgn').style.display=document.getElementById('ffg').value==='Yes'?'':'none';}
 function tcn(){document.getElementById('fcn').style.display=document.getElementById('ffc').value==='Yes'?'':'none';}
 
@@ -992,8 +1004,7 @@ function reviewAndSave(){
     ['Productor',v('fn')],['Cédula',v('fci')],
     ['Sexo',v('fg')==='Male'?'Masculino':'Femenino'],
     ['Fecha visita',v('fvisit')],
-    ['Variedad cacao',v('fvar')||'—'],
-    ['Hectáreas',v('fha')||'—'],
+    ['Variedad cacao',v('fvar')||'—'],['Hectáreas',v('fvar')==='Ambos (Nacional + CCN-51)'?'Nac: '+(v('fha-nac')||'—')+' / CCN: '+(v('fha-ccn')||'—'):(v('fha')||'—')],
     ['GPS',curGPS?curGPS.lat.toFixed(4)+', '+curGPS.lng.toFixed(4):'Sin GPS'],
     ['Foto',photoB64?'✓ Con foto':'Sin foto'],
     ['Miembros hogar',fam.length+' persona(s)'],
@@ -1031,7 +1042,7 @@ async function save(){
       address:v('fad'),smartphone:v('fsp'),phoneType:v('fpt'),phoneCode:'593',
       phone:v('fph'),farmerType:v('fft'),maritalStatus:v('fmc'),education:v('fed'),
       liveOnFarm:v('flf'),nCocoaPlots:v('fnp'),hectareas:v('fha'),
-      variedadCacao:v('fvar'),edadCultivo:v('fage'),visitDate:v('fvisit'),
+      variedadCacao:v('fvar'),edadCultivo:v('fage'),hectareas:v('fha'),haNacional:v('fha-nac'),edadNacional:v('fage-nac'),haCcn:v('fha-ccn'),edadCcn:v('fage-ccn'),visitDate:v('fvisit'),
       observations:v('fobs'),farmerGroup:v('ffg'),farmerCoop:v('ffc'),
       groupName:v('fgni'),coopName:v('fcni'),utz:v('futz'),otherProg:v('fop'),
       startUtz:v('fsu'),isNew:curP.isNew||false
@@ -1174,7 +1185,7 @@ async function expJSON(){
     if(!data.length){toast('No hay datos para exportar','er');return;}
     const out={
       exported_at:new Date().toISOString(),app_version:APP_VERSION,total:data.length,
-      productores:data.map(s=>({RecordID:g(s,'id'),Encuestador:g(s,'encuestador'),Nombre:g(s,'producer','name'),Genero:g(s,'producer','gender'),Fecha_Nac:g(s,'producer','birthdate'),Tipo_ID:g(s,'producer','idType'),Cedula:g(s,'producer','ci'),Provincia:g(s,'producer','province'),Canton:g(s,'producer','canton'),Ciudad:g(s,'producer','city'),Direccion:g(s,'producer','address'),Smartphone:g(s,'producer','smartphone'),Tipo_Tel:g(s,'producer','phoneType'),Celular:g(s,'producer','phone'),Tipo_Agricultor:g(s,'producer','farmerType'),Estado_Civil:g(s,'producer','maritalStatus'),Educacion:g(s,'producer','education'),Vive_Finca:g(s,'producer','liveOnFarm'),N_Parcelas:g(s,'producer','nCocoaPlots'),Hectareas:g(s,'producer','hectareas'),Variedad_Cacao:g(s,'producer','variedadCacao'),Edad_Cultivo:g(s,'producer','edadCultivo'),Fecha_Visita:g(s,'producer','visitDate'),Observaciones:g(s,'producer','observations'),Grupo:g(s,'producer','farmerGroup'),Cooperativa:g(s,'producer','farmerCoop'),Nombre_Grupo:g(s,'producer','groupName'),Nombre_Coop:g(s,'producer','coopName'),UTZ:g(s,'producer','utz'),Otro_Prog:g(s,'producer','otherProg'),Inicio_UTZ:g(s,'producer','startUtz'),GPS_Lat:g(s,'gps','lat'),GPS_Lng:g(s,'gps','lng'),GPS_Precision:g(s,'gps','acc'),Fecha_Registro:g(s,'createdAt')})),
+      productores:data.map(s=>({RecordID:g(s,'id'),Encuestador:g(s,'encuestador'),Nombre:g(s,'producer','name'),Genero:g(s,'producer','gender'),Fecha_Nac:g(s,'producer','birthdate'),Tipo_ID:g(s,'producer','idType'),Cedula:g(s,'producer','ci'),Provincia:g(s,'producer','province'),Canton:g(s,'producer','canton'),Ciudad:g(s,'producer','city'),Direccion:g(s,'producer','address'),Smartphone:g(s,'producer','smartphone'),Tipo_Tel:g(s,'producer','phoneType'),Celular:g(s,'producer','phone'),Tipo_Agricultor:g(s,'producer','farmerType'),Estado_Civil:g(s,'producer','maritalStatus'),Educacion:g(s,'producer','education'),Vive_Finca:g(s,'producer','liveOnFarm'),N_Parcelas:g(s,'producer','nCocoaPlots'),Hectareas:g(s,'producer','hectareas'),Variedad_Cacao:g(s,'producer','variedadCacao'),Edad_Cultivo:g(s,'producer','edadCultivo'),Ha_Nacional:g(s,'producer','haNacional'),Edad_Nacional:g(s,'producer','edadNacional'),Ha_CCN51:g(s,'producer','haCcn'),Edad_CCN51:g(s,'producer','edadCcn'),Fecha_Visita:g(s,'producer','visitDate'),Observaciones:g(s,'producer','observations'),Grupo:g(s,'producer','farmerGroup'),Cooperativa:g(s,'producer','farmerCoop'),Nombre_Grupo:g(s,'producer','groupName'),Nombre_Coop:g(s,'producer','coopName'),UTZ:g(s,'producer','utz'),Otro_Prog:g(s,'producer','otherProg'),Inicio_UTZ:g(s,'producer','startUtz'),GPS_Lat:g(s,'gps','lat'),GPS_Lng:g(s,'gps','lng'),GPS_Precision:g(s,'gps','acc'),Fecha_Registro:g(s,'createdAt')})),
       familia:data.flatMap(s=>(s.family||[]).map(f=>({RecordID_Ref:g(s,'id'),Cedula_Productor:g(s,'producer','ci'),Nombre_Productor:g(s,'producer','name'),Nombre_Familiar:g(f,'name'),Genero:g(f,'gender'),Anio_Nac:g(f,'birthYear'),Relacion:g(f,'relation'),En_Escuela:g(f,'inSchool'),Educacion:g(f,'education'),Trabaja_Finca:g(f,'workInFarm')}))),
       trabajadores:data.flatMap(s=>(s.labor||[]).map(l=>({RecordID_Ref:g(s,'id'),Cedula_Productor:g(s,'producer','ci'),Nombre_Productor:g(s,'producer','name'),Nombre_Trabajador:g(l,'name'),Genero:g(l,'gender'),Anio_Nac:g(l,'birthYear'),Educacion:g(l,'education'),Tipo_Jornada:g(l,'workStatus')})))
     };
@@ -1189,8 +1200,8 @@ async function expExcel(){
     const data=await dall();
     if(!data.length){toast('No hay datos para exportar','er');return;}
     toast('Generando XML...','');
-    const HEADERS=['RecordID','Encuestador','Nombre','Genero','Fecha_Nac','Tipo_ID','Cedula','Provincia','Canton','Ciudad','Direccion','Smartphone','Tipo_Tel','Celular','Tipo_Agricultor','Estado_Civil','Educacion','Vive_Finca','N_Parcelas','Hectareas','Variedad_Cacao','Edad_Cultivo','Fecha_Visita','Observaciones','Grupo','Cooperativa','Nombre_Grupo','Nombre_Coop','UTZ','Otro_Prog','Inicio_UTZ','GPS_Lat','GPS_Lng','GPS_Precision','Fecha_Registro'];
-    const h1=[xmlRow(HEADERS),...data.map(s=>xmlRow([g(s,'id'),g(s,'encuestador'),g(s,'producer','name'),g(s,'producer','gender'),g(s,'producer','birthdate'),g(s,'producer','idType'),g(s,'producer','ci'),g(s,'producer','province'),g(s,'producer','canton'),g(s,'producer','city'),g(s,'producer','address'),g(s,'producer','smartphone'),g(s,'producer','phoneType'),g(s,'producer','phone'),g(s,'producer','farmerType'),g(s,'producer','maritalStatus'),g(s,'producer','education'),g(s,'producer','liveOnFarm'),g(s,'producer','nCocoaPlots'),g(s,'producer','hectareas'),g(s,'producer','variedadCacao'),g(s,'producer','edadCultivo'),g(s,'producer','visitDate'),g(s,'producer','observations'),g(s,'producer','farmerGroup'),g(s,'producer','farmerCoop'),g(s,'producer','groupName'),g(s,'producer','coopName'),g(s,'producer','utz'),g(s,'producer','otherProg'),g(s,'producer','startUtz'),g(s,'gps','lat'),g(s,'gps','lng'),g(s,'gps','acc'),g(s,'createdAt')]))];
+    const HEADERS=['RecordID','Encuestador','Nombre','Genero','Fecha_Nac','Tipo_ID','Cedula','Provincia','Canton','Ciudad','Direccion','Smartphone','Tipo_Tel','Celular','Tipo_Agricultor','Estado_Civil','Educacion','Vive_Finca','N_Parcelas','Hectareas','Variedad_Cacao','Edad_Cultivo','Ha_Nacional','Edad_Nacional','Ha_CCN51','Edad_CCN51','Fecha_Visita','Observaciones','Grupo','Cooperativa','Nombre_Grupo','Nombre_Coop','UTZ','Otro_Prog','Inicio_UTZ','GPS_Lat','GPS_Lng','GPS_Precision','Fecha_Registro'];
+    const h1=[xmlRow(HEADERS),...data.map(s=>xmlRow([g(s,'id'),g(s,'encuestador'),g(s,'producer','name'),g(s,'producer','gender'),g(s,'producer','birthdate'),g(s,'producer','idType'),g(s,'producer','ci'),g(s,'producer','province'),g(s,'producer','canton'),g(s,'producer','city'),g(s,'producer','address'),g(s,'producer','smartphone'),g(s,'producer','phoneType'),g(s,'producer','phone'),g(s,'producer','farmerType'),g(s,'producer','maritalStatus'),g(s,'producer','education'),g(s,'producer','liveOnFarm'),g(s,'producer','nCocoaPlots'),g(s,'producer','hectareas'),g(s,'producer','variedadCacao'),g(s,'producer','edadCultivo'),g(s,'producer','haNacional'),g(s,'producer','edadNacional'),g(s,'producer','haCcn'),g(s,'producer','edadCcn'),g(s,'producer','visitDate'),g(s,'producer','observations'),g(s,'producer','farmerGroup'),g(s,'producer','farmerCoop'),g(s,'producer','groupName'),g(s,'producer','coopName'),g(s,'producer','utz'),g(s,'producer','otherProg'),g(s,'producer','startUtz'),g(s,'gps','lat'),g(s,'gps','lng'),g(s,'gps','acc'),g(s,'createdAt')]))];
     const h2=[xmlRow(['RecordID_Ref','Cedula_Productor','Nombre_Productor','Nombre_Familiar','Genero','Anio_Nac','Relacion','En_Escuela','Educacion','Trabaja_Finca']),...data.flatMap(s=>(s.family||[]).map(f=>xmlRow([g(s,'id'),g(s,'producer','ci'),g(s,'producer','name'),g(f,'name'),g(f,'gender'),g(f,'birthYear'),g(f,'relation'),g(f,'inSchool'),g(f,'education'),g(f,'workInFarm')])))];
     const h3=[xmlRow(['RecordID_Ref','Cedula_Productor','Nombre_Productor','Nombre_Trabajador','Genero','Anio_Nac','Educacion','Tipo_Jornada']),...data.flatMap(s=>(s.labor||[]).map(l=>xmlRow([g(s,'id'),g(s,'producer','ci'),g(s,'producer','name'),g(l,'name'),g(l,'gender'),g(l,'birthYear'),g(l,'education'),g(l,'workStatus')])))];
     const xml='<?xml version="1.0" encoding="UTF-8"?>'+
