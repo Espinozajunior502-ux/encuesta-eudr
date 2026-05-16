@@ -1120,7 +1120,7 @@ function g(obj,...keys){let vl=obj;for(const k of keys){vl=vl?.[k];}return vl??'
 function xmlCell(v){return `<Cell><Data ss:Type="String">${esc(v)}</Data></Cell>`;}
 function xmlRow(cells,isHeader){
   if(isHeader){
-    return '<Row ss:StyleID="Header">'+cells.map(c=>'<Cell ss:StyleID="Header"><Data ss:Type="String">'+esc(c)+'</Data></Cell>').join('')+'</Row>';
+    return '<Row>'+cells.map(c=>'<Cell ss:StyleID="Header"><Data ss:Type="String">'+esc(c)+'</Data></Cell>').join('')+'</Row>';
   }
   return '<Row>'+cells.map(xmlCell).join('')+'</Row>';
 }
@@ -1199,7 +1199,7 @@ async function expExcel(){
 '</ExcelWorkbook>'+
 '<Styles>'+
 '<Style ss:ID="Default" ss:Name="Normal"><Alignment ss:Vertical="Bottom"/></Style>'+
-'<Style ss:ID="Header"><Font ss:Bold="1"/><Interior ss:Color="#E8E8E8" ss:Pattern="Solid"/></Style>'+
+'<Style ss:ID="Header"><Font ss:FontName="Calibri" ss:Size="11" ss:Bold="1" ss:Color="#FFFFFF"/><Interior ss:Color="#E40521" ss:Pattern="Solid"/></Style>'+
 '</Styles>'+
 xmlSheet('Productores',h1)+xmlSheet('Familia',h2)+xmlSheet('Trabajadores',h3)+
 '</Workbook>';
