@@ -553,7 +553,12 @@ function normalizar(s){
 }
 function esAutorizado(nombre){
   const n=normalizar(nombre);
-  return USUARIOS_AUTORIZADOS.some(u=>normalizar(u)===n);
+  if(n.length<3)return false;
+  return USUARIOS_AUTORIZADOS.some(u=>{
+    const nu=normalizar(u);
+    const parts=nu.split(' ');
+    return nu===n || parts.includes(n) || parts[0]===n || parts[parts.length-1]===n || nu.includes(n);
+  });
 }
 let db,curP=null,curGPS=null,frows=[],lrows=[],fc=0,lc=0,editingId=null;
 let encuestador='',photoB64='';
@@ -606,8 +611,16 @@ const splash=document.getElementById('splash');
 function showApp(){splash.classList.add('hide');setTimeout(()=>{splash.style.display='none';checkPIN();},700);}
 vid.addEventListener('ended',showApp);
 vid.addEventListener('error',showApp);
-setTimeout(showApp,6000);
-vid.play().catch(()=>showApp());
+setTimeout(showApp,8000);
+// Mobile: wait until video can play, then force play
+vid.addEventListener('canplay',function(){vid.play().catch(()=>{});});
+// Retry play after short delay for iOS
+setTimeout(()=>{vid.play().catch(()=>{});},500);
+setTimeout(()=>{vid.play().catch(()=>{});},1500);
+vid.play().catch(()=>{
+  // If autoplay blocked completely, skip after 2s
+  setTimeout(showApp,2000);
+});
 
 // ── PIN ──
 let pinBuffer='',pinMode='check'; // check | setup
