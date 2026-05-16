@@ -932,6 +932,25 @@ function clrp(){curP=null;curGPS=null;editingId=null;photoB64='';document.getEle
 function popf(p){const s=(id,val)=>{const e=document.getElementById(id);if(e)e.value=val||'';};s('fn',p.name);s('fg',p.gender);s('fit',p.idType||'National ID card');s('fci',p.ci);s('fbd',p.birthdate);s('fpv',p.province||'Manabi');s('fct',p.canton||'EL CARMEN');s('fcy',p.city||'EL CARMEN');s('fad',p.address);s('fsp',p.smartphone||'Yes');s('fpt',p.phoneType||'Smartphone (Android/iPhone)');s('fph',p.phone);s('fmc',p.marital);s('fed',p.education);s('fft',p.farmerType||'Normal');s('flf',p.liveOnFarm);s('fnp',p.nCocoaPlots||'1');s('fha',p.hectareas||'');s('fvar',p.variedadCacao||'');s('fage',p.edadCultivo||'');s('fha-nac',p.haNacional||'');s('fage-nac',p.edadNacional||'');s('fha-ccn',p.haCcn||'');s('fage-ccn',p.edadCcn||'');toggleHa();s('fvisit',p.visitDate||new Date().toISOString().slice(0,10));s('fobs',p.observations||'');s('ffg',p.farmerGroup);s('ffc',p.farmerCoop);s('fgni',p.groupName);s('fcni',p.coopName);s('futz',p.utz);s('fop',p.otherProg);s('fsu',p.startUtz);tgn();tcn();valCI();}
 function tgn(){document.getElementById('fgn').style.display=document.getElementById('ffg').value==='Yes'?'':'none';}
 function tcn(){document.getElementById('fcn').style.display=document.getElementById('ffc').value==='Yes'?'':'none';}
+function toggleHa(){
+  var val=document.getElementById('fvar').value;
+  var single=document.getElementById('ha-single');
+  var ambos=document.getElementById('ha-ambos');
+  if(!single||!ambos)return;
+  if(val==='Cacao Nacional (Fino de Aroma)'){
+    single.style.display='';ambos.style.display='none';
+    document.getElementById('ha-single-label').textContent='Hectáreas Nacional';
+    document.getElementById('age-single-label').textContent='Edad cultivo (años)';
+  }else if(val==='Cacao CCN-51'){
+    single.style.display='';ambos.style.display='none';
+    document.getElementById('ha-single-label').textContent='Hectáreas CCN-51';
+    document.getElementById('age-single-label').textContent='Edad cultivo (años)';
+  }else if(val==='Ambos (Nacional + CCN-51)'){
+    single.style.display='none';ambos.style.display='';
+  }else{
+    single.style.display='none';ambos.style.display='none';
+  }
+}
 
 // Schedule autosave on any input change
 document.addEventListener('input',e=>{if(e.target.closest('#p0,#p1,#p2'))scheduleDraft();});
